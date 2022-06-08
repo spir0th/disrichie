@@ -1,0 +1,67 @@
+#!/bin/python
+# Launcher script for disrichie
+import atexit
+import os
+import sys
+from sys import exit
+
+class PyInteractiveError(Exception):
+	def __init__(self):
+		super().__init__('__file__ isn\'t defined, don\'t run it from an interactive Python instance.')
+
+class DisrichieMainError(Exception):
+	def __init__(self):
+		super().__init__('Unable to launch Disrichie, it\'s main module might be on another directory?')
+
+try:
+	__file__
+except NameError:
+	raise PyInteractiveError
+
+cwd = os.path.dirname(os.path.abspath(__file__))
+script_dir: str = f"{cwd}/scripts"
+script_main: str = f"{script_dir}/main.py"
+
+def handle_launcher_args():
+	if not sys.argv.__contains__('--debug'): sys.tracebacklimit = 0
+	if not sys.argv.__contains__('--cache'): sys.dont_write_bytecode = True
+	if sys.argv.__contains__('-v') or sys.argv.__contains__('--version'):
+		print('version 1.0.0')
+		exit()
+	if sys.argv.__contains__('-h') or sys.argv.__contains__('--help'):
+		print('disrichie - A simple program to display custom Rich Presence on Discord!')
+		print('\nArguments:')
+		print('	-h / --help : Display help information')
+		print('	-v / --version : Print program version')
+		print('	-p / --profile : Specify Rich Presence profile')
+		print('	--id / --client-id : Specify Client ID for Rich Presence')
+		print('\nLauncher arguments:')
+		print('	--debug : Do not suppress debugging output')
+		print('	--cache : Enable caching for this session')
+		print('\nYou can view more information here: NULL')
+		exit()
+
+def exit_handler():
+	# Temporary borrow functions from process module
+	try:
+		from process import is_locked
+		from process import destroy_lockfile
+	except ModuleNotFoundError:
+		print('Unable to unlock running process of Disrichie.')
+		exit(1)
+
+	if is_locked(): destroy_lockfile()
+
+def launch():
+	try:
+		from main import Disrichie
+		instance = Disrichie(sys.argv[1:])
+		instance.start_rpc()
+	except ModuleNotFoundError:
+		raise DisrichieMainError()
+
+# Main code
+handle_launcher_args()
+sys.path.insert(0, script_dir)
+atexit.register(exit_handler)
+launch()
