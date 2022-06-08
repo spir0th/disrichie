@@ -56,7 +56,7 @@ def launch():
 	try:
 		from main import Disrichie
 		instance = Disrichie(sys.argv[1:])
-		instance.start_rpc()
+		instance.start()
 	except ModuleNotFoundError:
 		raise DisrichieMainError()
 

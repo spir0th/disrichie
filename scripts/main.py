@@ -3,6 +3,7 @@ import os
 try:
 	from errors import *
 	from process import *
+	from profile import DisrichieProfile
 	from pypresence import DiscordNotFound
 	from pypresence import Presence
 except ModuleNotFoundError:
@@ -18,6 +19,7 @@ if __name__ == '__main__':
 
 class Disrichie:
 	client_id: int = 0 # Required to be set from the command-line
+	profile: DisrichieProfile = DisrichieProfile()
 	running: bool = False
 
 	def __init__(self, args: list[str]):
@@ -32,6 +34,10 @@ class Disrichie:
 				len(self.args) > index + 1 and \
 					self.args[index + 1] not in options:
 				self.client_id = self.args[index + 1]
+			if argument == "-p" or argument == "--profile" and \
+				len(self.args) > index + 1 and \
+					self.args[index + 1] not in options:
+				self.init_profile(self.args[index + 1])
 
 		for option in options:
 			if option not in self.args: continue
@@ -51,11 +57,15 @@ class Disrichie:
 			print('Unable to kill another instance, maybe it was forcefully killed?')
 			if exit_on_fail: exit()
 
+	def init_profile(self, path: str):
+		if not os.path.isfile(path): raise ProfileNotFoundError()
+		self.profile = DisrichieProfile(path)
+
 	def cancel(self):
 		destroy_lockfile()
 		self.running = False
 	
-	def start_rpc(self):
+	def start(self):
 		self.kill_oinstance(True)
 		init_lockfile()
 		
@@ -72,7 +82,8 @@ class Disrichie:
 			return
 
 		rpc.connect()
-		rpc.update(state='deez nuts')
+		rpc.update(state=self.profile.state(), details=self.profile.details(),
+			large_image=self.profile.large_image_key(), small_image=self.profile.small_image_key())
 		print('Rich Presence is now visible!')
 		self.running = True
 
