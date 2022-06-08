@@ -23,12 +23,12 @@ script_dir: str = f"{cwd}/scripts"
 script_main: str = f"{script_dir}/main.py"
 
 def handle_launcher_args():
-	if not sys.argv.__contains__('--debug'): sys.tracebacklimit = 0
-	if not sys.argv.__contains__('--cache'): sys.dont_write_bytecode = True
-	if sys.argv.__contains__('-v') or sys.argv.__contains__('--version'):
+	if '--debug' not in sys.argv: sys.tracebacklimit = 0
+	if '--cache' not in sys.argv: sys.dont_write_bytecode = True
+	if '-v' in sys.argv or '--version' in sys.argv:
 		print('version 1.0.0')
 		exit()
-	if sys.argv.__contains__('-h') or sys.argv.__contains__('--help'):
+	if '-h' in sys.argv or '--help' in sys.argv:
 		print('disrichie - A simple program to display custom Rich Presence on Discord!')
 		print('\nArguments:')
 		print('	-h / --help : Display help information')

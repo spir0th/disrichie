@@ -30,11 +30,11 @@ class Disrichie:
 		for index, argument in enumerate(self.args):
 			if argument == "--id" or argument == "--client-id" and \
 				len(self.args) > index + 1 and \
-					not options.__contains__(self.args[index + 1]):
+					self.args[index + 1] not in options:
 				self.client_id = self.args[index + 1]
 
 		for option in options:
-			if not self.args.__contains__(option): continue
+			if option not in self.args: continue
 			if option == '--cancel':
 				self.kill_oinstance()
 				exit()
