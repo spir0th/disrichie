@@ -1,6 +1,6 @@
 class NoRichPresenceLibraryError(Exception):
 	def __init__(self):
-		super().__init__('No Rich Presence library was specified.')
+		super().__init__('No Rich Presence library was specified')
 
 class RichPresenceLibraryError(Exception):
 	def __init__(self, library: int):
@@ -17,16 +17,20 @@ class RichPresenceLibraryError(Exception):
 
 class ProfileNotFoundError(Exception):
 	def __init__(self):
-		super().__init__('Specified profile not found.')
+		super().__init__('Specified profile not found')
 
 class ProfileParseError(Exception):
 	def __init__(self):
-		super().__init__('Failure of parsing JSON-based profile.')
+		super().__init__('Profile failed to parse')
 
 class ProfileInvalidationError(Exception):
-	def __init__(self, key: str = None) -> None:
+	def __init__(self, key: str = None):
 		if not key:
 			super().__init__('Profile invalidation error')
 			return
 
 		super().__init__(f"Failed to invalidate profile because {key} wasn't defined")
+
+class ClientIDSyntaxError(Exception):
+	def __init__(self):
+		super().__init__('Check if the specified Client ID has no alphabetical and special characters')
