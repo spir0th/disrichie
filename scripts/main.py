@@ -43,10 +43,10 @@ class Disrichie:
 		for option in options:
 			if option not in self.args: continue
 			if option == '--cancel':
-				self.kill_oinstance()
+				self.kill_instance()
 				exit()
 
-	def kill_oinstance(self, exit_on_fail: bool = False):
+	def kill_instance(self, exit_on_fail: bool = False):
 		if not is_locked():
 			return
 		
