@@ -17,7 +17,10 @@ goto:eof
 :: Define some functions
 :startPackage
 echo Package: Build
-pyinstaller --onefile --clean --noconfirm --path scripts --specpath dist --workpath dist/build disrichie
+pyinstaller disrichie --onefile --clean --noconfirm ^
+	--icon "../assets/disrichie.ico" --path "./scripts" ^
+	--workpath "./dist/build" --specpath "./dist"
+	
 goto:eof
 
 :pyinstallerCheckFailed
