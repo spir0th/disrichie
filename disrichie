@@ -46,11 +46,10 @@ def exit_handler():
 	try:
 		from process import is_locked
 		from process import destroy_lockfile
+		if is_locked(): destroy_lockfile()
 	except ModuleNotFoundError:
 		print('Unable to unlock running process of Disrichie.')
 		exit(1)
-
-	if is_locked(): destroy_lockfile()
 
 def launch():
 	try:
