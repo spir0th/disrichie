@@ -34,7 +34,7 @@ def handle_launcher_args():
 		print('	-h / --help : Display help information')
 		print('	-v / --version : Print program version')
 		print('	-p / --profile : Specify Rich Presence profile')
-		print('	--id / --client-id : Specify Client ID for Rich Presence')
+		print('	-i / --id : Specify Client ID for Rich Presence')
 		print('\nLauncher arguments:')
 		print('	--debug : Do not suppress debugging output')
 		print('	--cache : Enable caching for this session')

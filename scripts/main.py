@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
 class Disrichie:
 	client_id: int = 0 # Required to be set from the command-line
-	profile: DisrichieProfile = DisrichieProfile()
+	profile: DisrichieProfile = DisrichieProfile() # Load with no keys
 	running: bool = False
 
 	def __init__(self, args: list[str]):
@@ -30,7 +30,7 @@ class Disrichie:
 		options: list[str] = ['--cancel']
 
 		for index, argument in enumerate(self.args):
-			if argument == "--id" or argument == "--client-id" and \
+			if argument == "-i" or argument == "--id" and \
 				len(self.args) > index + 1 and \
 					self.args[index + 1] not in options:
 				self.client_id = self.args[index + 1]
