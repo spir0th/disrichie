@@ -29,7 +29,7 @@ def use_background():
 	subprocess.Popen(args=[sys.executable, __file__] + argv, creationflags=subprocess.DETACHED_PROCESS)
 
 def handle_launcher_args():
-	if '--no-tracebacks' not in sys.argv: sys.tracebacklimit = 0
+	if '--tracebacks' not in sys.argv: sys.tracebacklimit = 0
 	if '--cache' not in sys.argv: sys.dont_write_bytecode = True
 	if '--background' in sys.argv:
 		use_background()
@@ -47,7 +47,7 @@ def handle_launcher_args():
 		print('\nLauncher arguments:')
 		print('	--background : Launch Disrichie asynchronously')
 		print('	--cache : Enable caching for this session')
-		print('	--no-tracebacks : Print exception messages only')
+		print('	--tracebacks : Print not only the error but from where it was fired')
 		print('\nYou can view more information here: NULL')
 		exit()
 
