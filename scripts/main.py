@@ -86,7 +86,7 @@ class Disrichie:
 		self.rpc.connect()
 		self.rpc.update(state=self.profile.state(), details=self.profile.details(),
 			start=self.profile.start_timestamp(),
-			large_image=self.profile.large_image_key(), small_image=self.profile.small_image_key(),
+			large_image=self.profile.large_image(), small_image=self.profile.small_image(),
 			large_text=self.profile.large_image_text(), small_text=self.profile.small_image_text())
 		print('Rich Presence is now visible!')
 		self.running = True

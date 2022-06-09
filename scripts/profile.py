@@ -41,13 +41,13 @@ class DisrichieProfile:
 		
 		return datetime.datetime.now().timestamp()
 
-	def large_image_key(self) -> str:
-		if 'largeImageKey' not in self.data: return None
-		return self.data['largeImageKey']
+	def large_image(self) -> str:
+		if 'largeImage' not in self.data: return None
+		return self.data['largeImage']
 
-	def small_image_key(self) -> str:
-		if 'smallImageKey' not in self.data: return None
-		return self.data['smallImageKey']
+	def small_image(self) -> str:
+		if 'smallImage' not in self.data: return None
+		return self.data['smallImage']
 
 	def large_image_text(self) -> str:
 		if 'largeImageText' not in self.data: return None
