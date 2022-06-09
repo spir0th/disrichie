@@ -35,7 +35,7 @@ def handle_launcher_args():
 		use_background()
 		exit()
 	if '-v' in sys.argv or '--version' in sys.argv:
-		print('version 1.0.0')
+		print('version 1.0.1')
 		exit()
 	if '-h' in sys.argv or '--help' in sys.argv:
 		print('disrichie - A simple program to display custom Rich Presence on Discord!')
