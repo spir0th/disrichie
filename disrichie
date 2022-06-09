@@ -45,8 +45,9 @@ def handle_launcher_args():
 		print('	-p / --profile : Specify Rich Presence profile')
 		print('	-i / --id : Specify Client ID for Rich Presence')
 		print('\nLauncher arguments:')
-		print('	--debug : Do not suppress debugging output')
+		print('	--background : Launch Disrichie asynchronously')
 		print('	--cache : Enable caching for this session')
+		print('	--debug : Do not suppress debugging output')
 		print('\nYou can view more information here: NULL')
 		exit()
 
