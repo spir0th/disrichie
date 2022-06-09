@@ -41,12 +41,12 @@ Do you want to show off Disrichie on your friends, with directly executing Disri
 Just execute this command:
 
 ```shell
-$ ./tools/pack-portable
+$ ./tools/pack-portable # You must be on the source directory in order to execute this!
 ```
 
 Then it'll build the portable version of Disrichie executable.
 
-Note that you must be on the source directory in order to execute the command!
+Note that the `--background` option won't work as it will create a blank window.
 
 # Distributing
 Ayo, you want to distribute your standalone version of Disrichie? Contact me at Discord: `GianXD#1059` so that I could add it!
