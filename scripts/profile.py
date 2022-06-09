@@ -1,3 +1,4 @@
+import datetime
 from errors import ProfileInvalidationError
 from errors import ProfileParseError
 import json
@@ -34,6 +35,12 @@ class DisrichieProfile:
 		if 'state' not in self.data: return None
 		return self.data['state']
 	
+	def start_timestamp(self) -> float:
+		if 'displayElapsed' not in self.data or \
+			not self.data['displayElapsed']: return None
+		
+		return datetime.datetime.now().timestamp()
+
 	def large_image_key(self) -> str:
 		if 'largeImageKey' not in self.data: return None
 		return self.data['largeImageKey']
@@ -41,3 +48,11 @@ class DisrichieProfile:
 	def small_image_key(self) -> str:
 		if 'smallImageKey' not in self.data: return None
 		return self.data['smallImageKey']
+
+	def large_image_text(self) -> str:
+		if 'largeImageText' not in self.data: return None
+		return self.data['largeImageText']
+	
+	def small_image_text(self) -> str:
+		if 'smallImageText' not in self.data: return None
+		return self.data['smallImageText']
