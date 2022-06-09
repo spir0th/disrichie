@@ -2,6 +2,7 @@
 # Launcher script for disrichie
 import atexit
 import os
+import subprocess
 import sys
 from sys import exit
 
@@ -22,9 +23,17 @@ cwd = os.path.dirname(os.path.abspath(__file__))
 script_dir: str = f"{cwd}/scripts"
 script_main: str = f"{script_dir}/main.py"
 
+def use_background():
+	argv = sys.argv[1:]
+	if '--background' in argv: argv.remove('--background')
+	subprocess.Popen(args=[sys.executable, __file__] + argv, creationflags=subprocess.DETACHED_PROCESS)
+
 def handle_launcher_args():
 	if '--debug' not in sys.argv: sys.tracebacklimit = 0
 	if '--cache' not in sys.argv: sys.dont_write_bytecode = True
+	if '--background' in sys.argv:
+		use_background()
+		exit()
 	if '-v' in sys.argv or '--version' in sys.argv:
 		print('version 1.0.0')
 		exit()
