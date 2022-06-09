@@ -63,6 +63,7 @@ class Disrichie:
 		if os.path.isfile(id):
 			file = open(self.id, 'r')
 			self.client_id = file.readline()
+			file.close()
 			return
 		if any(char.isalpha() for char in id) or \
 			re.compile('[@_!#$%^&*()<>?/\|}{~:]').search(id) != None:
