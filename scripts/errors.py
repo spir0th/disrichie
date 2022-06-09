@@ -31,6 +31,10 @@ class ProfileInvalidationError(Exception):
 
 		super().__init__(f"Failed to invalidate profile because {key} wasn't defined")
 
+class TooMuchButtonsError(Exception):
+	def __init__(self):
+		super().__init__('There are too many buttons defined on the specified profile')
+
 class ClientIDSyntaxError(Exception):
 	def __init__(self):
 		super().__init__('Check if the specified Client ID has no alphabetical and special characters')

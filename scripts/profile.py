@@ -56,3 +56,15 @@ class DisrichieProfile:
 	def small_image_text(self) -> str:
 		if 'smallImageText' not in self.data: return None
 		return self.data['smallImageText']
+	
+	def buttons(self) -> list[dict]:
+		if 'buttons' not in self.data or \
+			len(self.data['buttons']) < 1: return None
+		for button in self.data['buttons']:
+			if 'label' not in button or not button['label'] or \
+				'url' not in button or not button['url'] or \
+					len(button) < 1:
+				self.data['buttons'].remove(button)
+				continue
+
+		return self.data['buttons']
