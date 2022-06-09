@@ -20,6 +20,7 @@ if __name__ == '__main__':
 class Disrichie:
 	client_id: int = 0 # Required to be set from the command-line
 	profile: DisrichieProfile = DisrichieProfile() # Load with no keys
+	rpc: Presence = None
 	running: bool = False
 
 	def __init__(self, args: list[str]):
@@ -62,6 +63,9 @@ class Disrichie:
 		self.profile = DisrichieProfile(path)
 
 	def cancel(self):
+		if self.rpc:
+			self.rpc.clear()
+
 		destroy_lockfile()
 		self.running = False
 	
@@ -72,24 +76,24 @@ class Disrichie:
 		if not self.client_id:
 			print('No client ID has been set. See help for more information.')
 			return
-		
-		rpc: Presence = None
 
 		try:
-			rpc = Presence(str(self.client_id))
+			self.rpc = Presence(client_id=str(self.client_id))
 		except DiscordNotFound:
 			print('Discord is not running or installed.')
 			return
 
-		rpc.connect()
-		rpc.update(state=self.profile.state(), details=self.profile.details(),
+		self.rpc.connect()
+		self.rpc.update(state=self.profile.state(), details=self.profile.details(),
 			large_image=self.profile.large_image_key(), small_image=self.profile.small_image_key())
 		print('Rich Presence is now visible!')
 		self.running = True
+		self.wait()
 
+	def wait(self):
 		try:
 			while self.running:
 				time.sleep(15)
 		except KeyboardInterrupt:
+			self.cancel()
 			exit()
-
