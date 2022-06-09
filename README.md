@@ -35,6 +35,19 @@ To finally build the standalone version of Disrichie.
 
 If that fails, you must go with the `python disrichie` stuff, sorry m8.
 
+## Disrichie Portable (optional)
+Do you want to show off Disrichie on your friends, with directly executing Disrichie immediately? Try out Disrichie Portable!
+
+Just execute this command:
+
+```shell
+$ ./tools/pack-portable
+```
+
+Then it'll build the portable version of Disrichie executable.
+
+Note that you must be on the source directory in order to execute the command!
+
 # Distributing
 Ayo, you want to distribute your standalone version of Disrichie? Contact me at Discord: `GianXD#1059` so that I could add it!
 
