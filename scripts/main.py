@@ -2,6 +2,7 @@ try:
 	from errors import *
 	from process import *
 	from profile import DisrichieProfile
+	from pypresence import DiscordError
 	from pypresence import DiscordNotFound
 	from pypresence import Presence
 except ModuleNotFoundError:
@@ -81,7 +82,7 @@ class Disrichie:
 		self.running = False
 	
 	def start(self):
-		self.kill_oinstance(True)
+		self.kill_instance(True)
 		init_lockfile()
 		
 		if not self.client_id:
@@ -90,11 +91,14 @@ class Disrichie:
 
 		try:
 			self.rpc = Presence(client_id=str(self.client_id))
+			self.rpc.connect()
+		except DiscordError as error:
+			print(error.message)
+			return
 		except DiscordNotFound:
-			print('Discord is not running or installed.')
+			print('Discord is not running or installed')
 			return
 
-		self.rpc.connect()
 		self.rpc.update(state=self.profile.state(), details=self.profile.details(),
 			start=self.profile.start_timestamp(),
 			large_image=self.profile.large_image(), small_image=self.profile.small_image(),
