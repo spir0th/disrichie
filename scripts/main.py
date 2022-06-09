@@ -61,7 +61,7 @@ class Disrichie:
 
 	def init_client_id(self, id: str):
 		if os.path.isfile(id):
-			file = open(self.id, 'r')
+			file = open(id, 'r')
 			self.client_id = file.readline()
 			file.close()
 			return
