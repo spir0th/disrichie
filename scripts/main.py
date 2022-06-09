@@ -1,5 +1,3 @@
-import os
-
 try:
 	from errors import *
 	from process import *
@@ -10,6 +8,8 @@ except ModuleNotFoundError:
 	raise ModuleNotFoundError('Unable to find the required modules,'
 								' make sure Disrichie is configured properly.')
 
+import os
+import re
 import signal
 from sys import exit
 import time
@@ -34,7 +34,7 @@ class Disrichie:
 			if argument == "-i" or argument == "--id" and \
 				len(self.args) > index + 1 and \
 					self.args[index + 1] not in options:
-				self.client_id = self.args[index + 1]
+				self.init_client_id(self.args[index + 1])
 			if argument == "-p" or argument == "--profile" and \
 				len(self.args) > index + 1 and \
 					self.args[index + 1] not in options:
@@ -57,6 +57,17 @@ class Disrichie:
 		except:
 			print('Unable to kill another instance, maybe it was forcefully killed?')
 			if exit_on_fail: exit()
+
+	def init_client_id(self, id: str):
+		if os.path.isfile(id):
+			file = open(self.id, 'r')
+			self.client_id = file.readline()
+			return
+		if any(char.isalpha() for char in id) or \
+			re.compile('[@_!#$%^&*()<>?/\|}{~:]').search(id) != None:
+			raise ClientIDSyntaxError()
+		
+		self.client_id = int(id)
 
 	def init_profile(self, path: str):
 		if not os.path.isfile(path): raise ProfileNotFoundError()
