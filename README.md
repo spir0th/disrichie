@@ -22,7 +22,7 @@ Wanna build the standalone version for yourself so that you cry when you fail mu
 ## Requirements
 Disrichie requires the latest version of Python (or Python 3.10 at least) with the pip package manager.
 
-And, if you don't have the required modules/packages installed, you can execute `tools/setupdev.cmd`
+And, if you don't have the required modules/packages installed, you can execute `tools/setupenv.cmd`
 
 ## The Final Instruction
 Now, this could be very easy, execute this command:
