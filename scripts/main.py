@@ -13,7 +13,7 @@ import os
 import re
 import signal
 import subprocess
-import sys
+from sys import executable
 from sys import exit
 import time
 
@@ -72,10 +72,10 @@ class Disrichie:
 		if not self.running: return
 
 		self.cancel()
-		argv = sys.argv[1:]
+		argv = self.args
 
 		if '--no-spawn-background' not in argv: argv.append('--no-spawn-background')
-		subprocess.Popen(args=[sys.executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
+		subprocess.Popen(args=[executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
 
 	def init_client_id(self, id: str):
 		if os.path.isfile(id):
