@@ -12,6 +12,8 @@ except ModuleNotFoundError:
 import os
 import re
 import signal
+import subprocess
+import sys
 from sys import exit
 import time
 
@@ -19,6 +21,7 @@ if __name__ == '__main__':
 	raise RuntimeError('Disrichie must be ran from the launcher script.')
 
 class Disrichie:
+	dont_spawn_background: bool = False # Must spawn a background process unless a similar option is called
 	client_id: int = 0 # Required to be set from the command-line
 	profile: DisrichieProfile = DisrichieProfile() # Load with no keys
 	rpc: Presence = None
@@ -29,7 +32,7 @@ class Disrichie:
 		self.parse_args()
 
 	def parse_args(self):
-		options: list[str] = ['--cancel']
+		options: list[str] = ['--cancel', '--no-spawn-background', '--wait']
 
 		for index, argument in enumerate(self.args):
 			if argument == "-i" or argument == "--id" and \
@@ -46,6 +49,9 @@ class Disrichie:
 			if option == '--cancel':
 				self.kill_instance()
 				exit()
+			if option == '--no-spawn-background' or \
+				option == '--wait':
+				self.dont_spawn_background = True
 
 	def kill_instance(self, exit_on_fail: bool = False):
 		if not is_locked():
@@ -58,6 +64,18 @@ class Disrichie:
 		except:
 			print('Unable to kill another instance, maybe it was forcefully killed?')
 			if exit_on_fail: exit()
+
+	def spawn_background(self):
+		# In order to spawn Disrichie in the background
+		# We must append the option --no-spawn-background / --wait
+		# So that it won't cause spawn iteration (looping processes)
+		if not self.running: return
+
+		self.cancel()
+		argv = sys.argv[1:]
+
+		if '--no-spawn-background' not in argv: argv.append('--no-spawn-background')
+		subprocess.Popen(args=[sys.executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
 
 	def init_client_id(self, id: str):
 		if os.path.isfile(id):
@@ -81,7 +99,7 @@ class Disrichie:
 
 		destroy_lockfile()
 		self.running = False
-	
+
 	def start(self):
 		self.kill_instance(True)
 		init_lockfile()
@@ -107,11 +125,15 @@ class Disrichie:
 			buttons=self.profile.buttons())
 		print('Rich Presence is now visible!')
 		self.running = True
-		self.wait()
+
+		if not self.dont_spawn_background:
+			self.spawn_background()
+		else:
+			self.wait()
 
 	def wait(self):
 		try:
 			while self.running:
 				time.sleep(15)
 		except KeyboardInterrupt:
-			self.cancel()
+			if self.running: self.cancel()

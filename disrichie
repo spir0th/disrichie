@@ -18,17 +18,9 @@ class DisrichieMainError(Exception):
 	def __init__(self):
 		super().__init__('Disrichie main script error')
 
-def use_background():
-	argv = sys.argv[1:]
-	if '--background' in argv: argv.remove('--background')
-	subprocess.Popen(args=[sys.executable, __file__] + argv, creationflags=subprocess.DETACHED_PROCESS)
-
 def handle_launcher_args():
 	if '--tracebacks' not in sys.argv: sys.tracebacklimit = 0
 	if '--cache' not in sys.argv: sys.dont_write_bytecode = True
-	if '--background' in sys.argv:
-		use_background()
-		exit()
 	if '-v' in sys.argv or '--version' in sys.argv:
 		print('version 1.0.1')
 		exit()
@@ -39,8 +31,8 @@ def handle_launcher_args():
 		print('	-v / --version : Print program version')
 		print('	-p / --profile : Specify Rich Presence profile')
 		print('	-i / --id : Specify Client ID for Rich Presence')
+		print('	--wait / --no-spawn-background : Wait for Disrichie to end')
 		print('\nLauncher arguments:')
-		print('	--background : Launch Disrichie asynchronously')
 		print('	--cache : Enable caching for this session')
 		print('	--tracebacks : Print not only the error but from where it was fired')
 		print('\nYou can view more information here: NULL')
