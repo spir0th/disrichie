@@ -115,4 +115,3 @@ class Disrichie:
 				time.sleep(15)
 		except KeyboardInterrupt:
 			self.cancel()
-			exit()

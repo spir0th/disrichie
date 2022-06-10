@@ -1,25 +1,22 @@
 #!/bin/python
 # Launcher script for disrichie
 import atexit
-
-try:
-	from errors import *
-except ModuleNotFoundError as error:
-	raise RuntimeError(f"Internal script error: {error.msg}")
-
 import os
 import subprocess
 import sys
 from sys import exit
 
-try:
-	__file__
-except NameError:
-	raise PyInteractiveError
-
 cwd = os.path.dirname(os.path.abspath(__file__))
 script_dir: str = f"{cwd}/scripts"
 script_main: str = f"{script_dir}/main.py"
+
+class PyInteractiveError(Exception):
+	def __init__(self):
+		super().__init__('Disrichie shouldn\'t be ran from an interactive Python instance')
+
+class DisrichieMainError(Exception):
+	def __init__(self):
+		super().__init__('Disrichie main script error')
 
 def use_background():
 	argv = sys.argv[1:]
@@ -58,6 +55,12 @@ def exit_handler():
 	except ModuleNotFoundError as error:
 		print(f"Unable to delete lockfile: {error.msg}")
 		pass
+
+def check_interactive():
+	try:
+		__file__
+	except NameError:
+		raise PyInteractiveError
 
 def launch():
 	try:
