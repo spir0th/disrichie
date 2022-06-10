@@ -47,23 +47,26 @@ class Disrichie:
 		for option in options:
 			if option not in self.args: continue
 			if option == '--cancel':
-				self.kill_instance()
+				if not self.kill_instance():
+					print('No background process are running')
+
 				exit()
 			if option == '--no-spawn-background' or \
 				option == '--wait':
 				self.dont_spawn_background = True
 
-	def kill_instance(self, exit_on_fail: bool = False):
+	def kill_instance(self, exit_on_fail: bool = False) -> bool:
 		if not is_locked():
-			return
+			return False
 		
 		try:
-			pid = lockfile_pid()
-			os.kill(pid, signal.SIGINT)
-			print(f"Killed Disrichie process {pid}")
+			os.kill(lockfile_pid(), signal.SIGINT)
 		except:
-			print('Unable to kill another instance, maybe it was forcefully killed?')
-			if exit_on_fail: exit()
+			destroy_lockfile()
+			if is_locked() and exit_on_fail: exit()
+			return False
+
+		return True
 
 	def spawn_background(self):
 		# In order to spawn Disrichie in the background

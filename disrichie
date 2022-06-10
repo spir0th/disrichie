@@ -1,7 +1,7 @@
 #!/bin/python
 # Launcher script for disrichie
-import atexit
 import os
+import signal
 import sys
 from sys import exit
 
@@ -37,15 +37,17 @@ def handle_launcher_args():
 		print('\nYou can view more information here: NULL')
 		exit()
 
-def exit_handler():
+def sigint_handler(number, handler):
 	# Temporary borrow functions from process module
 	try:
 		from process import is_locked
 		from process import destroy_lockfile
 		if is_locked(): destroy_lockfile()
 	except ModuleNotFoundError as error:
-		print(f"Unable to delete lockfile: {error.msg}")
+		print(f"Unable to close Rich Presence: {error.msg}")
 		pass
+
+	exit()
 
 def check_interactive():
 	try:
@@ -64,5 +66,5 @@ def launch():
 # Main code
 handle_launcher_args()
 sys.path.insert(0, script_dir)
-atexit.register(exit_handler)
+signal.signal(signal.SIGINT, sigint_handler)
 launch()
