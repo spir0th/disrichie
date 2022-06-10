@@ -1,18 +1,16 @@
 #!/bin/python
 # Launcher script for disrichie
 import atexit
+
+try:
+	from errors import *
+except ModuleNotFoundError as error:
+	raise RuntimeError(f"Internal script error: {error.msg}")
+
 import os
 import subprocess
 import sys
 from sys import exit
-
-class PyInteractiveError(Exception):
-	def __init__(self):
-		super().__init__('__file__ isn\'t defined, don\'t run it from an interactive Python instance.')
-
-class DisrichieMainError(Exception):
-	def __init__(self):
-		super().__init__('Unable to launch Disrichie, it\'s main module might be on another directory?')
 
 try:
 	__file__
@@ -57,9 +55,9 @@ def exit_handler():
 		from process import is_locked
 		from process import destroy_lockfile
 		if is_locked(): destroy_lockfile()
-	except ModuleNotFoundError:
-		print('Unable to unlock running process of Disrichie.')
-		exit(1)
+	except ModuleNotFoundError as error:
+		print(f"Unable to delete lockfile: {error.msg}")
+		pass
 
 def launch():
 	try:

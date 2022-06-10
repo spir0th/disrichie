@@ -8,7 +8,7 @@ def is_locked() -> bool:
 
 def lockfile_pid() -> int:
 	if not is_locked():
-		print('No Disrichie process has been locked, cannot get PID.')
+		print('No lockfile exists, cannot get locked process ID.')
 		return 0
 	
 	lockfile = open(f"{temp_dir}/disrichie.lock", 'r')
@@ -22,9 +22,11 @@ def init_lockfile():
 	lockfile.close()
 
 def destroy_lockfile():
-	if not is_locked(): print('This process has already been unlocked or is not locked once.')
+	if not is_locked():
+		print('Lockfile has already been deleted.')
+		return
 	
 	try:
 		os.remove(f"{temp_dir}/disrichie.lock")
 	except FileNotFoundError:
-		print('Cannot unlock process, must be deleted before it was properly unlocked?')
+		print('Cannot delete lockfile, maybe the lockfile was deleted unexpectedly?')

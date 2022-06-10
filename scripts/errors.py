@@ -1,3 +1,11 @@
+class PyInteractiveError(Exception):
+	def __init__(self):
+		super().__init__('Disrichie shouldn\'t be ran from an interactive Python instance')
+
+class DisrichieMainError(Exception):
+	def __init__(self):
+		super().__init__('Disrichie main script error')
+
 class NoRichPresenceLibraryError(Exception):
 	def __init__(self):
 		super().__init__('No Rich Presence library was specified')
