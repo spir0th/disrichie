@@ -19,7 +19,8 @@ goto:eof
 echo Package: Build
 pyinstaller disrichie --clean --noconfirm ^
 	--icon "../assets/disrichie.ico" --path "./scripts" ^
-	--workpath "./dist/build" --specpath "./dist"
+	--workpath "./dist/build" --specpath "./dist" ^
+	--version-file "../assets/version_info.txt"
 goto:eof
 
 :pyinstallerCheckFailed
