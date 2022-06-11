@@ -50,7 +50,9 @@ class Disrichie:
 		for option in options:
 			if option not in self.args: continue
 			if option == '--cancel':
-				if not self.kill_instance():
+				if self.kill_instance():
+					print('Killed Disrichie background processes')
+				else:
 					print('No background process are running')
 
 				exit()
