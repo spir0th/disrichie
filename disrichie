@@ -15,7 +15,7 @@ class PyInteractiveError(Exception):
 
 class DisrichieMainError(Exception):
 	def __init__(self):
-		super().__init__('Disrichie main script error')
+		super().__init__('Internal main script error')
 
 def handle_launcher_args():
 	if '--tracebacks' not in sys.argv: sys.tracebacklimit = 0
@@ -37,18 +37,6 @@ def handle_launcher_args():
 		print('\nYou can view more information here: NULL')
 		exit()
 
-def sigint_handler(number, handler):
-	# Temporary borrow functions from process module
-	try:
-		from process import is_locked
-		from process import destroy_lockfile
-		if is_locked(): destroy_lockfile()
-	except ModuleNotFoundError as error:
-		print(f"Unable to close Rich Presence: {error.msg}")
-		pass
-
-	exit()
-
 def check_interactive():
 	try:
 		__file__
@@ -64,7 +52,7 @@ def launch():
 		raise DisrichieMainError()
 
 # Main code
+check_interactive()
 handle_launcher_args()
 sys.path.insert(0, script_dir)
-signal.signal(signal.SIGINT, sigint_handler)
 launch()
