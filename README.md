@@ -10,14 +10,12 @@ Basically, it displays a custom Rich Presence status on your Discord account, do
 No, it does not violate Discord's Terms of Service. It's not like you're modifying the Discord webapp itself.
 
 ## How do I get started?
-If you wanna check it out immediately, go to the [Releases](https://github.com/gianxddddd/disrichie/releases) page.
+If you wanna check it out immediately, or just want the standalone version, go to the [Releases](https://github.com/gianxddddd/disrichie/releases) page.
 
-or, just do `git clone` for this repo then execute `python disrichie` (This does not build the standalone version, but rather runs disrichie from your Python interpreter)
-
-or or or, if you want the harder way that you want to smash and cry if you fail multiple times but with the most updated code, then proceed to Building section below this.
+or, just do `git clone` for this repo then execute `python disrichie` (This runs disrichie from your Python interpreter)
 
 # Building
-Wanna build the standalone version for yourself so that you cry when you fail multiple times? Let's go!
+Wanna build the standalone version for yourself so that your friends don't have to install Python? Let's go!
 
 ## Requirements
 Disrichie requires the latest version of Python (or Python 3.10 at least) with the pip package manager.
@@ -35,8 +33,8 @@ To finally build the standalone version of Disrichie.
 
 If that fails, you must go with the `python disrichie` stuff, sorry m8.
 
-## Disrichie Portable (optional)
-Do you want to show off Disrichie on your friends, with directly executing Disrichie immediately? Try out Disrichie Portable!
+## Portable version (optional)
+Do you want to show off Disrichie on your friends, with directly executing Disrichie immediately? Try out the portable version!
 
 Just execute this command:
 
@@ -46,10 +44,7 @@ $ ./tools/pack-portable # You must be on the source directory in order to execut
 
 Then it'll build the portable version of Disrichie executable.
 
-Note that the `--background` option won't work as it will create a blank window.
-
-# Distributing
-Ayo, you want to distribute your standalone version of Disrichie? Contact me at Discord: `GianXD#1059` so that I could add it!
+Note that Disrichie will spawn a new window in order to display the current state of your Rich Presence availability (which is not present on the non-portable version), you can `--wait` to suppress this.
 
 # FAQ
 ## UNIX support? (e.g Linux, macOS, FreeBSD)
@@ -66,5 +61,6 @@ You can either send a mail on `borcillofg2020@gmail.com` or chat in Discord: `Gi
 # Contribute
 Contributing for Disrichie? You can do it anytime, on any file.
 
-# End of README
-Bye.
+As long it's good and working, this will make Disrichie even function better!
+
+### End of README.
