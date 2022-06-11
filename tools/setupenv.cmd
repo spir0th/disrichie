@@ -12,7 +12,7 @@ if errorlevel 1 goto pipCheckFailed
 
 :: Install required modules
 echo Install: Required Modules
-pip install pypresence appdirs
+pip install pypresence
 
 :: Then exit the script
 echo Done
