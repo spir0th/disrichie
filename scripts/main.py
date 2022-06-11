@@ -32,7 +32,7 @@ class Disrichie:
 		self.parse_args()
 
 	def parse_args(self):
-		options: list[str] = ['--cancel', '--no-spawn-background', '--wait']
+		options: list[str] = ['--cancel', '--wait']
 
 		for index, argument in enumerate(self.args):
 			if argument == "-i" or argument == "--id" and \
@@ -51,8 +51,7 @@ class Disrichie:
 					print('No background process are running')
 
 				exit()
-			if option == '--no-spawn-background' or \
-				option == '--wait':
+			if option == '--wait':
 				self.dont_spawn_background = True
 
 	def kill_instance(self, exit_on_fail: bool = False) -> bool:
@@ -70,14 +69,14 @@ class Disrichie:
 
 	def spawn_background(self):
 		# In order to spawn Disrichie in the background
-		# We must append the option --no-spawn-background / --wait
+		# We must append the option --wait
 		# So that it won't cause spawn iteration (looping processes)
 		if not self.running: return
 
 		self.cancel()
 		argv = self.args
 
-		if '--no-spawn-background' not in argv: argv.append('--no-spawn-background')
+		if '--wait' not in argv: argv.append('--wait')
 		subprocess.Popen(args=[executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
 
 	def init_client_id(self, id: str):

@@ -30,7 +30,7 @@ def handle_launcher_args():
 		print('	-v / --version : Print program version')
 		print('	-p / --profile : Specify Rich Presence profile')
 		print('	-i / --id : Specify Client ID for Rich Presence')
-		print('	--wait / --no-spawn-background : Wait for Disrichie to end')
+		print('	--wait : Do not put Disrichie into background and wait')
 		print('\nLauncher arguments:')
 		print('	--cache : Enable caching for this session')
 		print('	--tracebacks : Print not only the error but from where it was fired')
