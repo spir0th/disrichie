@@ -1,7 +1,6 @@
 #!/bin/python
 # Launcher script for disrichie
 import os
-import signal
 import sys
 from sys import exit
 

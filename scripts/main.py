@@ -21,7 +21,7 @@ if __name__ == '__main__':
 	raise RuntimeError('Disrichie must be ran from the launcher script.')
 
 class Disrichie:
-	dont_spawn_background: bool = False # Must spawn a background process unless a similar option is called
+	dont_wait: bool = True # Must spawn a background process unless the --wait option is appended
 	client_id: int = 0 # Required to be set from the command-line
 	profile: DisrichieProfile = DisrichieProfile() # Load with no keys
 	rpc: Presence = None
@@ -30,6 +30,9 @@ class Disrichie:
 	def __init__(self, args: list[str]):
 		self.args: list[str] = args
 		self.parse_args()
+
+	def __del__(self):
+		if self.running: self.stop()
 
 	def parse_args(self):
 		options: list[str] = ['--cancel', '--wait']
@@ -52,7 +55,7 @@ class Disrichie:
 
 				exit()
 			if option == '--wait':
-				self.dont_spawn_background = True
+				self.dont_wait = False
 
 	def kill_instance(self, exit_on_fail: bool = False) -> bool:
 		if not is_locked():
@@ -69,13 +72,8 @@ class Disrichie:
 
 	def spawn_background(self):
 		# In order to spawn Disrichie in the background
-		# We must append the option --wait
-		# So that it won't cause spawn iteration (looping processes)
-		if not self.running: return
-
-		self.cancel()
+		# We must append the option --wait to avoid spawn iteration (looping processes)
 		argv = self.args
-
 		if '--wait' not in argv: argv.append('--wait')
 		subprocess.Popen(args=[executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
 
@@ -95,11 +93,9 @@ class Disrichie:
 		if not os.path.isfile(path): raise ProfileNotFoundError()
 		self.profile = DisrichieProfile(path)
 
-	def cancel(self):
-		if self.rpc:
-			self.rpc.clear()
-
-		destroy_lockfile()
+	def stop(self):
+		if self.rpc: self.rpc.clear()
+		if is_locked(): destroy_lockfile()
 		self.running = False
 
 	def start(self):
@@ -108,6 +104,9 @@ class Disrichie:
 		
 		if not self.client_id:
 			print('No client ID has been set. See help for more information.')
+			return
+		if self.dont_wait:
+			self.spawn_background()
 			return
 
 		try:
@@ -127,15 +126,11 @@ class Disrichie:
 			buttons=self.profile.buttons())
 		print('Rich Presence is now visible!')
 		self.running = True
-
-		if not self.dont_spawn_background:
-			self.spawn_background()
-		else:
-			self.wait()
+		self.wait()
 
 	def wait(self):
 		try:
 			while self.running:
 				time.sleep(15)
 		except KeyboardInterrupt:
-			if self.running: self.cancel()
+			pass
