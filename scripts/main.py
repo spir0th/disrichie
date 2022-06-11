@@ -32,7 +32,7 @@ class Disrichie:
 		self.parse_args()
 
 	def __del__(self):
-		if self.running: self.stop()
+		self.stop()
 
 	def parse_args(self):
 		options: list[str] = ['--cancel', '--wait']
@@ -50,10 +50,8 @@ class Disrichie:
 		for option in options:
 			if option not in self.args: continue
 			if option == '--cancel':
-				if self.kill_instance():
-					print('Killed Disrichie background processes')
-				else:
-					print('No background process are running')
+				if not self.kill_instance():
+					print('No background processes are running')
 
 				exit()
 			if option == '--wait':
@@ -64,10 +62,17 @@ class Disrichie:
 			return False
 		
 		try:
-			os.kill(lockfile_pid(), signal.SIGINT)
+			pid = lockfile_pid()
+			os.kill(pid, signal.SIGINT)
+			print(f"Killed background process {pid}")
 		except:
+			print("Unable to kill background process, deleting lockfile to finalize...")
 			destroy_lockfile()
-			if is_locked() and exit_on_fail: exit()
+
+			if is_locked():
+				print('Cannot delete lockfile either, must be already removed unexpectedly?')
+				if exit_on_fail: exit()
+
 			return False
 
 		return True
@@ -77,6 +82,7 @@ class Disrichie:
 		# We must append the option --wait to avoid spawn iteration (looping processes)
 		argv = self.args
 		if '--wait' not in argv: argv.append('--wait')
+		print('Rich Presence will be visible soon.')
 		subprocess.Popen(args=[executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
 
 	def init_client_id(self, id: str):
