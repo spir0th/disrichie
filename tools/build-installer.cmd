@@ -6,7 +6,8 @@ echo Check: pyinstaller Modules
 pyinstaller --version > NUL
 if errorlevel 1 goto pyinstallerCheckFailed
 
-:: Then start the packaging process
+:: Then call the process functions
+call :checkZipBuild
 call :startPackage
 
 :: Exit the script after
@@ -17,18 +18,18 @@ goto:eof
 :checkZipBuild
 echo Check: Disrichie ZIP build
 
-if NOT exists installer/files.zip (
+if not exist installer/files.zip (
 	echo Error: No build of Disrichie has been made.
-	echo
 	echo Try to execute build.cmd or build-portable.cmd first and compress it into a ZIP file.
-	echo 	After that, move it to the installer directory
+	echo After that, move it to the installer directory
 )
 
+exit 1
 goto:eof
 
 :startPackage
 echo Start: Build Installer
-pyinstaller installer/main.py --name "disrichie-installer" --onefile --clean --noconfirm --noconsole ^
+pyinstaller installer/main.py --name "installer" --onefile --clean --noconfirm --noconsole ^
 	--distpath "./dist/installer" --icon "../../assets/disrichie.ico" ^
 	--path "./installer" --workpath "./dist/installer/build" ^
 	--specpath "./dist/installer" --add-data "../../installer/files.zip;." ^
