@@ -26,7 +26,7 @@ And, if you don't have the required modules/packages installed, you can execute 
 Now, this could be very easy, execute this command:
 
 ```shell
-$ ./tools/pack # You must be on the source directory to execute this, otherwise it'll fail!
+$ ./tools/build # You must be on the source directory to execute this, otherwise it'll fail!
 ```
 
 To finally build the standalone version of Disrichie.
@@ -39,12 +39,22 @@ Do you want to show off Disrichie on your friends, with directly executing Disri
 Just execute this command:
 
 ```shell
-$ ./tools/pack-portable # You must be on the source directory in order to execute this!
+$ ./tools/build-portable # You must be on the source directory in order to execute this!
 ```
 
 Then it'll build the portable version of Disrichie executable.
 
 Note that Disrichie will spawn a new window in order to display the current state of your Rich Presence availability (which is not present on the non-portable version), you can `--wait` to suppress this.
+
+## Building the Installer (optional)
+If you want to build the installer by yourself, you must check the following needs before you can execute `tools/build-installer.cmd`:
+
+- Has already built a standalone version and put into the installer directory in a compressed ZIP file called `files`
+- Cleaned the `dist` directory
+
+Once you have done the needed, you can now execute `tools/build-installer.cmd`, still noted that you must be on the source directory when you do it.
+
+Note: This only works on the Standalone version and not the portable one.
 
 # FAQ
 ## UNIX support? (e.g Linux, macOS, FreeBSD)

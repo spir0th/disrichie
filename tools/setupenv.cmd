@@ -6,13 +6,13 @@ python --version > NUL
 if errorlevel 1 goto pyCheckFailed
 
 :: Also for pip
-echo Check: pip nstallation
+echo Check: pip Installation
 pip --version > NUL
 if errorlevel 1 goto pipCheckFailed
 
 :: Install required modules
 echo Install: Required Modules
-pip install pypresence
+pip install pypresence appdirs pillow
 
 :: Then exit the script
 echo Done

@@ -1,5 +1,5 @@
 @echo off
-:: pack-portable - A script that packages disrichie into a portable binary executable using pyinstaller
+:: build-portable - A script that converts disrichie into a portable binary executable using pyinstaller
 :: ONLY EXECUTE THIS WHEN YOU'RE IN THE DISRICHIE SOURCE DIRECTORY
 :: Make sure pyinstaller is already installed otherwise it'll fail to package
 echo Check: pyinstaller Modules
@@ -7,7 +7,6 @@ pyinstaller --version > NUL
 if errorlevel 1 goto pyinstallerCheckFailed
 
 :: Then start the packaging process
-echo Start: Process Package Portable
 call :startPackage
 
 :: Exit the script after
@@ -16,7 +15,7 @@ goto:eof
 
 :: Define some functions
 :startPackage
-echo Package: Build
+echo Start: Build Portable
 pyinstaller disrichie --onefile --clean --noconfirm ^
 	--icon "../assets/disrichie.ico" --path "./scripts" ^
 	--workpath "./dist/build" --specpath "./dist" ^
