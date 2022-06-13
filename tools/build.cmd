@@ -15,7 +15,7 @@ goto:eof
 
 :: Define some functions
 :startPackage
-echo Start: Build Standalone
+echo Start: Build Standalone version
 pyinstaller disrichie --clean --noconfirm ^
 	--icon "../assets/disrichie.ico" --path "./scripts" ^
 	--workpath "./dist/build" --specpath "./dist" ^

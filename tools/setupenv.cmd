@@ -1,12 +1,12 @@
 @echo off
 :: setupdev.cmd - A simple script that installs disrichie's prerequisites
 :: Check if Python 3 is installed
-echo Check: Python 3 Interpreter
+echo Check: Python 3
 python --version > NUL
 if errorlevel 1 goto pyCheckFailed
 
 :: Also for pip
-echo Check: pip Installation
+echo Check: PIP
 pip --version > NUL
 if errorlevel 1 goto pipCheckFailed
 
