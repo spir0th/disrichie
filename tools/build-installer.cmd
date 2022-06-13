@@ -37,6 +37,6 @@ pyinstaller installer/main.py --name "installer" --onefile --clean --noconfirm -
 goto:eof
 
 :pyinstallerCheckFailed
-echo Error: pyinstaller is required for packaging disrichie into a binary executable, and is not installed.
+echo Error: pyinstaller is required for packaging the Installer into a binary executable, and is not installed.
 echo Install it using: pip install pyinstaller
 goto:eof
