@@ -2,7 +2,7 @@
 :: build - A script that converts disrichie into a binary executable using pyinstaller
 :: ONLY EXECUTE THIS WHEN YOU'RE IN THE DISRICHIE SOURCE DIRECTORY
 :: Make sure pyinstaller is already installed otherwise it'll fail to package
-echo Check: pyinstaller Modules
+echo Check: pyinstaller
 pyinstaller --version > NUL
 if errorlevel 1 goto pyinstallerCheckFailed
 
