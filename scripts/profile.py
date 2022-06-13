@@ -1,3 +1,4 @@
+from __future__ import annotations
 import datetime
 from errors import ProfileInvalidationError
 from errors import ProfileParseError

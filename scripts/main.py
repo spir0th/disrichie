@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 try:
 	from errors import *
 	from process import *
@@ -10,6 +12,7 @@ except ModuleNotFoundError:
 								' make sure Disrichie is configured properly.')
 
 import os
+import platform
 import re
 import signal
 import subprocess
@@ -83,7 +86,12 @@ class Disrichie:
 		argv = self.args
 		if '--wait' not in argv: argv.append('--wait')
 		print('Rich Presence will be visible soon.')
-		subprocess.Popen(args=[executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
+
+		if platform.system() == 'Windows':
+			subprocess.Popen(args=[executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
+		else:
+			subprocess.Popen(args=[executable, 'disrichie'] + argv,
+				stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 	def init_client_id(self, id: str):
 		if os.path.isfile(id):

@@ -8,9 +8,13 @@ cwd = os.path.dirname(os.path.abspath(__file__))
 script_dir: str = f"{cwd}/scripts"
 script_main: str = f"{script_dir}/main.py"
 
+class PyVersionUnsupportedError(Exception):
+	def __init__(self, version: str):
+		super().__init__(f"Disrichie does not support Python {version} or less.")
+
 class PyInteractiveError(Exception):
 	def __init__(self):
-		super().__init__('Disrichie shouldn\'t be ran from an interactive Python instance')
+		super().__init__('Do not run Disrichie inside an interactive Python instance!')
 
 class DisrichieMainError(Exception):
 	def __init__(self):
@@ -40,7 +44,11 @@ def check_interactive():
 	try:
 		__file__
 	except NameError:
-		raise PyInteractiveError
+		raise PyInteractiveError()
+
+def check_py_version():
+	if sys.version_info[1] < 7:
+		raise PyVersionUnsupportedError('3.6.15')
 
 def launch():
 	try:
@@ -52,6 +60,7 @@ def launch():
 
 # Main code
 check_interactive()
+check_py_version()
 handle_launcher_args()
 sys.path.insert(0, script_dir)
 launch()
