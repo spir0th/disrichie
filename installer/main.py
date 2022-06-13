@@ -10,23 +10,22 @@ from tkinter import messagebox
 from tkinter.ttk import *
 from zipfile import ZipFile
 
-try:
-	from PIL import ImageTk, Image
-except ModuleNotFoundError as error:
-	raise RuntimeError(f"Failed to initialize installer: {error.msg}")
+class InstallerInitError(Exception):
+	def __init__(self):
+		super().__init__('Installer has not yet fully initialized.')
 
 root: Tk = None
 path: StringVar = None
 extracting: bool = False
 
 def resources_path() -> str:
+	# This function is necessary when it is built into an executable
 	if not hasattr(sys, '_MEIPASS'): return ''
 	return f"{sys._MEIPASS}/"
 
 def init():
-	global root, path
+	global root
 	if not root: root = Tk()
-	if not path: path = StringVar(value=f"{appdirs.user_data_dir()}/disrichie")
 	root.protocol('WM_DELETE_WINDOW', abort)
 	root.iconbitmap(f"{resources_path()}installer.ico")
 	root.title('Disrichie')
@@ -39,8 +38,8 @@ def ask_dir(path: str) -> str:
 	return new_path
 
 def center():
-	global root, path
-	if not root and not path: raise RuntimeError('Installer has not yet fully initialized.')
+	global root
+	if not root: raise InstallerInitError()
 
 	window_height = 500
 	window_width = 500
@@ -65,35 +64,51 @@ def fail(reason: str):
 	global extracting
 	if extracting: extracting = False
 	messagebox.showerror('Installation error', reason)
-	switch(5)
+	switch(4)
 
 def clear():
-	global root, path
-	if not root and not path: raise RuntimeError('Installer has not yet fully initialized.')
+	global root
+	if not root: raise InstallerInitError()
 
 	for widget in root.winfo_children():
 		widget.destroy()
 
+def draw_separators():
+	global root
+	if not root: raise InstallerInitError()
+	header_sep = Separator(root, orient=HORIZONTAL)
+	navigation_sep = Separator(root, orient=HORIZONTAL)
+	header_sep.place(relx=0, rely=0.15, relwidth=1, relheight=1)
+	navigation_sep.place(relx=0, rely=0.92, relwidth=1, relheight=1)
+
 def switch(index: int = 0):
 	global root, path, extracting
-	if not root and not path: raise RuntimeError('Installer has not yet fully initialized.')
+	if not root and not path: raise InstallerInitError()
 	if len(root.winfo_children()) > 0: clear()
+	if index < 5: draw_separators()
 
 	if index == 0: # Welcome screen
-		# Create centered frame
-		frame = Frame(root)
-		frame.pack(expand=YES)
+		# Create header
+		header = Label(root, text='Welcome')
+		font = Font(font=header['font'])
+		header.config(font=(font.actual(), 18))
+		header.pack(side=TOP, anchor=NW, padx=8, pady=8)
 
-		# Create image header
-		image = ImageTk.PhotoImage(Image.open(f"{resources_path()}header.png"))
-		header = Label(frame, image=image)
-		header.image = image
-		header.pack(fill=X)
+		# Create text
+		text = Label(root, text='To begin installation of Disrichie, click "Install" to proceed.')
+		text.pack(side=TOP, anchor=NW, padx=8)
 
-		# Create install button
-		btn = Button(frame, text='Install', command=lambda: switch(1))
-		btn.pack(fill=X)
-	elif index == 1: # Destination and options screen
+		# Create navigation buttons
+		btn_frame = Frame(root)
+		btn_frame.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
+		btn = Button(btn_frame, text='Install', command=lambda: switch(1))
+		btn.pack(in_=btn_frame, side=RIGHT)
+		btn2 = Button(btn_frame, text='Exit', command=lambda: abort())
+		btn2.pack(in_=btn_frame, side=RIGHT)
+	elif index == 1: # Destination screen
+		# Initialize path if not
+		if not path: path = StringVar(value=f"{appdirs.user_data_dir()}/disrichie")
+
 		# Create header
 		header = Label(root, text='Destination Location')
 		font = Font(font=header['font'])
@@ -105,10 +120,12 @@ def switch(index: int = 0):
 		text.pack(side=TOP, anchor=NW, padx=8)
 
 		# Create destination entry and change button
-		entry = Entry(root, width=50, textvariable=path)
-		entry.pack(side=TOP, anchor=NW, padx=8, pady=24)
+		dest_frame = Frame(root)
+		dest_frame.pack(side=TOP, anchor=NW, padx=8, pady=16)
 		btn_change = Button(root, text='Change...', command=lambda: path.set(ask_dir(path.get())))
-		btn_change.pack(side=TOP, anchor=NW, padx=8)
+		btn_change.pack(in_=dest_frame, side=RIGHT, padx=8)
+		entry = Entry(dest_frame, width=50, textvariable=path)
+		entry.pack(in_=dest_frame, side=RIGHT)
 
 		# Create navigation buttons
 		btn_frame = Frame(root)
@@ -117,26 +134,7 @@ def switch(index: int = 0):
 		btn.pack(in_=btn_frame, side=RIGHT)
 		btn2 = Button(btn_frame, text='Go back', command=lambda: switch(0))
 		btn2.pack(in_=btn_frame, side=RIGHT)
-	elif index == 2: # Installation review screen
-		# Create header
-		header = Label(root, text='Review')
-		font = Font(font=header['font'])
-		header.config(font=(font.actual(), 18))
-		header.pack(side=TOP, anchor=NW, padx=8, pady=8)
-
-		# Create review message
-		review = Message(root, width=400, text=f"Disrichie will be installed in {path.get()} "
-			f"and it will take space of 17MB.")
-		review.pack(side=TOP, anchor=NW, padx=8)
-
-		# Create navigation buttons
-		btn_frame = Frame(root)
-		btn_frame.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
-		btn = Button(btn_frame, text='Proceed', command=lambda: switch(3))
-		btn.pack(in_=btn_frame, side=RIGHT)
-		btn2 = Button(btn_frame, text='Go back', command=lambda: switch(1))
-		btn2.pack(in_=btn_frame, side=RIGHT)
-	elif index == 3: # Installing page
+	elif index == 2: # Installing page
 		# Lock the exit button
 		extracting = True
 
@@ -148,12 +146,12 @@ def switch(index: int = 0):
 
 		# Create text
 		text = Label(root, text='Copying installation files, please wait...')
-		text.pack(side=TOP, anchor=NW, padx=8, pady=16)
+		text.pack(side=TOP, anchor=NW, padx=8)
 
-		# Create extraction filename text
-		filename_text_str = StringVar(value='Initializing')
-		filename_text = Label(root, textvariable=filename_text_str)
-		filename_text.pack(side=TOP, anchor=NW, padx=8, pady=16)
+		# Create extraction status text
+		status_text_str = StringVar(value='Initializing')
+		status_text = Label(root, textvariable=status_text_str)
+		status_text.pack(side=TOP, anchor=NW, padx=8, pady=16)
 
 		# Create extraction progress bar
 		bar = Progressbar(orient=HORIZONTAL, length=500, mode='determinate', maximum=100, value=0)
@@ -163,7 +161,7 @@ def switch(index: int = 0):
 		os.makedirs(path.get(), exist_ok=True)
 
 		if not os.path.isfile(f"{resources_path()}files.zip"):
-			filename_text_str.set('Error')
+			status_text_str.set('Error')
 			fail('Missing installation files! Contact the author.')
 			return
 
@@ -173,15 +171,15 @@ def switch(index: int = 0):
 
 		for file in zipfile.infolist():
 			extract_size += file.file_size
-			filename_text_str.set(f"Extracting {file.filename()}")
+			status_text_str.set('Unpacking...')
 			bar['value'] = extract_size * 100 / uncompressed_size
 			zipfile.extract(file, path.get())
 		
-		# Finally close zipfile, and unlock the exit button, then switch to 4th screen
+		# Close zipfile to save memory, then unlock the exit button, then switch to 4th screen
 		zipfile.close()
 		extracting = False
-		switch(4)
-	elif index == 4: # Installation success screen
+		switch(3)
+	elif index == 3: # Installation success screen
 		# Create header
 		header = Label(root, text='Install success')
 		font = Font(font=header['font'])
@@ -195,7 +193,7 @@ def switch(index: int = 0):
 		# Create exit button
 		btn = Button(root, text='Close', command=lambda: exit())
 		btn.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
-	elif index == 5: # Failed to install screen
+	elif index == 4: # Failed to install screen
 		# Create header
 		header = Label(root, text='Failed to install')
 		font = Font(font=header['font'])
@@ -211,8 +209,8 @@ def switch(index: int = 0):
 		btn.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
 
 def loop():
-	global root, path
-	if not root and not path: raise RuntimeError('Installer has not yet fully initialized.')
+	global root
+	if not root: raise InstallerInitError()
 
 	try:
 		root.mainloop()
