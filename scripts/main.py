@@ -7,9 +7,8 @@ try:
 	from pypresence import DiscordError
 	from pypresence import DiscordNotFound
 	from pypresence import Presence
-except ModuleNotFoundError:
-	raise ModuleNotFoundError('Unable to find the required modules,'
-								' make sure Disrichie is configured properly.')
+except ModuleNotFoundError as error:
+	raise RuntimeError(f"Failed to load required modules: {error.msg}")
 
 import os
 import platform

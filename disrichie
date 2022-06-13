@@ -18,7 +18,7 @@ class PyInteractiveError(Exception):
 
 class DisrichieMainError(Exception):
 	def __init__(self):
-		super().__init__('Internal main script error')
+		super().__init__('Initialization error')
 
 def handle_launcher_args():
 	if '--tracebacks' not in sys.argv: sys.tracebacklimit = 0
