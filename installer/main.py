@@ -2,12 +2,18 @@ import appdirs
 import os
 from sys import exit
 import sys
-from tkinter.filedialog import askdirectory
-from tkinter.font import Font
-from tkinter.ttk import Progressbar
-from tkinter import *
-from tkinter import messagebox
-from tkinter.ttk import *
+
+try:
+	from tkinter.filedialog import askdirectory
+	from tkinter.font import Font
+	from tkinter.ttk import Progressbar
+	from tkinter import *
+	from tkinter import messagebox
+	from tkinter.ttk import *
+except ModuleNotFoundError:
+	raise RuntimeError('tkinter is not installed on your Python interpreter, '
+		'see https://stackoverflow.com/a/25905642/16378482 if you\'re using UNIX-based OS')
+
 from zipfile import ZipFile
 
 class InstallerInitError(Exception):
@@ -217,6 +223,13 @@ def loop():
 	except KeyboardInterrupt:
 		abort(True)
 
-init()
+try:
+	init()
+except TclError as error:
+	if error.args[0] == 'no display name and no $DISPLAY environment variable':
+		print('GUI in your environment is not supported.')
+		exit(1)
+	else: pass
+
 switch()
 loop()
