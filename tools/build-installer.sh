@@ -40,4 +40,4 @@ checkZipBuild
 startPackage
 
 # Exit the script after
-echo Done
+echo "Done"
