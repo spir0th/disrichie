@@ -18,7 +18,6 @@ import platform
 import re
 import signal
 import subprocess
-import sys
 from sys import executable
 from sys import exit
 import time
