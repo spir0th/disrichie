@@ -133,6 +133,10 @@ class Disrichie:
 			self.spawn_background()
 			return
 		if not self.legacy:
+			if len(self.profile.buttons()) > 0:
+				print('Current profile has buttons defined, '
+					'they will be ignored as GameSDK does not support custom buttons')
+
 			self.gamesdk = GameSDK(int(self.client_id), discordsdk.CreateFlags.default)
 			activity_assets = ActivityAssets()
 			activity_assets.large_image = self.profile.large_image()
