@@ -3,7 +3,6 @@ from __future__ import annotations
 try:
 	import discordsdk
 	from discordsdk import Activity
-	from discordsdk import ActivityAssets
 	from discordsdk import Discord as GameSDK
 	from errors import *
 	from process import *
@@ -138,16 +137,14 @@ class Disrichie:
 					'they will be ignored as GameSDK does not support custom buttons')
 
 			self.gamesdk = GameSDK(int(self.client_id), discordsdk.CreateFlags.default)
-			activity_assets = ActivityAssets()
-			activity_assets.large_image = self.profile.large_image()
-			activity_assets.small_image = self.profile.small_image()
-			activity_assets.large_text = self.profile.large_image_text()
-			activity_assets.small_text = self.profile.small_image_text()
 			activity = Activity()
 			activity.details = self.profile.details()
 			activity.state = self.profile.state()
 			activity.timestamps.start = self.profile.start_timestamp()
-			activity.assets = activity_assets
+			activity.assets.large_image = self.profile.large_image()
+			activity.assets.small_image = self.profile.small_image()
+			activity.assets.large_text = self.profile.large_image_text()
+			activity.assets.small_text = self.profile.small_image_text()
 			activity.instance = True
 			self.gamesdk.get_activity_manager().update_activity(activity, self.callback)
 		elif self.legacy:
