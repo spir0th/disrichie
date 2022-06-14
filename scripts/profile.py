@@ -30,41 +30,42 @@ class Profile:
 
 	def details(self) -> str:
 		if 'details' not in self.data or not self.data['details']: return None
-		return self.data['details']
+		return str(self.data['details'])
 
 	def state(self) -> str:
 		if 'state' not in self.data or not self.data['state']: return None
-		return self.data['state']
+		return str(self.data['state'])
 	
 	def start_timestamp(self) -> float:
 		if 'displayElapsed' not in self.data or \
+			not isinstance(self.data['displayElapsed'], bool) or \
 			not self.data['displayElapsed']: return None
 		
-		return datetime.datetime.now().timestamp()
+		return float(datetime.datetime.now().timestamp())
 
 	def large_image(self) -> str:
 		if 'largeImage' not in self.data or \
 			not self.data['largeImage']: return None
 		
-		return self.data['largeImage']
+		return str(self.data['largeImage'])
 
 	def small_image(self) -> str:
 		if 'smallImage' not in self.data or \
 			not self.data['smallImage']: return None
 		
-		return self.data['smallImage']
+		return str(self.data['smallImage'])
 
 	def large_image_text(self) -> str:
 		if 'largeImageText' not in self.data or \
 			not self.data['largeImageText']: return None
 		
-		return self.data['largeImageText']
+		return str(self.data['largeImageText'])
 	
 	def small_image_text(self) -> str:
 		if 'smallImageText' not in self.data or \
 			not self.data['smallImageText']: return None
 		
-		return self.data['smallImageText']
+		return str(self.data['smallImageText'])
 	
 	def buttons(self) -> list[dict]:
 		if 'buttons' not in self.data or \
@@ -76,4 +77,4 @@ class Profile:
 				self.data['buttons'].remove(button)
 				continue
 
-		return self.data['buttons']
+		return list[dict](self.data['buttons'])
