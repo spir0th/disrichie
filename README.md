@@ -33,10 +33,12 @@ In order to run Disrichie right now is to get the required GameSDK libraries.
 If you tend to use the legacy library (Discord-RPC), you still need to do these steps because `main.py` does not have the ability to optionally import the GameSDK modules.
 
 ## Running
-Now that you have done all of the previous instructions, you can now run Disrichie by executing: `python disrichie -h`
-
+Now that you have done all of the previous instructions, you can now run Disrichie by executing:
 ```shell
-> python disrichie -h
+$ python disrichie -h
+```
+```shell
+$ python disrichie -h
 disrichie - A simple program to display custom Rich Presence on Discord!
 
 Arguments:
@@ -61,14 +63,12 @@ $ ./tools/build # You must be on the source directory to execute this, otherwise
 then it will build the Standalone version.
 
 ## Building the Installer (optional)
-If you want to build the installer by yourself, you must check the following needs before you can execute `tools/build-installer.cmd`:
+If you want to build the installer by yourself, you must check the following needs before you can execute `tools/build-installer`:
 
-- Has already built a standalone version and put into the installer directory in a compressed ZIP file called `files`
+- Has already built a standalone version and put into the installer directory in a compressed ZIP file called `files.zip`
 - Cleaned the `dist` directory
 
-Once you have done the needed, you can now execute `tools/build-installer.cmd`, still noted that you must be on the source directory when you do it.
-
-Note: This only works on the Standalone version and not the portable one.
+Once you have done the needed, you can now execute `tools/build-installer`, still noted that you must be on the source directory when you do it.
 
 # FAQ
 ## Why the Portable version was removed?
