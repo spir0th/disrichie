@@ -4,7 +4,7 @@ from errors import ProfileInvalidationError
 from errors import ProfileParseError
 import json
 
-class DisrichieProfile:
+class Profile:
 	path: str = None
 	data = None
 

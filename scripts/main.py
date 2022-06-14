@@ -3,7 +3,7 @@ from __future__ import annotations
 try:
 	from errors import *
 	from process import *
-	from profile import DisrichieProfile
+	from profile import Profile
 	from pypresence import DiscordError
 	from pypresence import DiscordNotFound
 	from pypresence import Presence as DiscordRPC
@@ -25,7 +25,7 @@ if __name__ == '__main__':
 class Disrichie:
 	dont_wait: bool = True # Must spawn a background process unless the --wait option is appended
 	client_id: int = 0 # Required to be set from the command-line
-	profile: DisrichieProfile = DisrichieProfile() # Load with no keys
+	profile: Profile = Profile() # Load with no keys
 	rpc: DiscordRPC = None
 	running: bool = False
 
@@ -105,7 +105,7 @@ class Disrichie:
 
 	def init_profile(self, path: str):
 		if not os.path.isfile(path): raise ProfileNotFoundError()
-		self.profile = DisrichieProfile(path)
+		self.profile = Profile(path)
 
 	def stop(self):
 		if self.running and self.rpc: self.rpc.clear()
