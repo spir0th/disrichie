@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 try:
+	import discordsdk
+	from discordsdk import Activity
+	from discordsdk import ActivityAssets
+	from discordsdk import Discord as GameSDK
 	from errors import *
 	from process import *
 	from profile import DisrichieProfile
 	from pypresence import DiscordError
 	from pypresence import DiscordNotFound
-	from pypresence import Presence
+	from pypresence import Presence as DiscordRPC
 except ModuleNotFoundError as error:
 	raise RuntimeError(f"Failed to load required modules: {error.msg}")
 
@@ -15,6 +19,7 @@ import platform
 import re
 import signal
 import subprocess
+import sys
 from sys import executable
 from sys import exit
 import time
@@ -26,7 +31,9 @@ class Disrichie:
 	dont_wait: bool = True # Must spawn a background process unless the --wait option is appended
 	client_id: int = 0 # Required to be set from the command-line
 	profile: DisrichieProfile = DisrichieProfile() # Load with no keys
-	rpc: Presence = None
+	gamesdk: GameSDK = None
+	rpc: DiscordRPC = None
+	legacy: bool = False
 	running: bool = False
 
 	def __init__(self, args: list[str]):
@@ -37,7 +44,7 @@ class Disrichie:
 		self.stop()
 
 	def parse_args(self):
-		options: list[str] = ['--cancel', '--wait']
+		options: list[str] = ['--cancel', '--legacy', '--wait']
 
 		for index, argument in enumerate(self.args):
 			if argument == "-i" or argument == "--id" and \
@@ -56,6 +63,9 @@ class Disrichie:
 					print('No background processes are running')
 
 				exit()
+			if option == '--legacy':
+				print('Disrichie will use Discord-RPC instead of Discord GameSDK.')
+				self.legacy = True
 			if option == '--wait':
 				self.dont_wait = False
 
@@ -84,7 +94,6 @@ class Disrichie:
 		# We must append the option --wait to avoid spawn iteration (looping processes)
 		argv = self.args
 		if '--wait' not in argv: argv.append('--wait')
-		print('Rich Presence will be visible soon.')
 
 		if platform.system() == 'Windows':
 			subprocess.Popen(args=[executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
@@ -109,43 +118,69 @@ class Disrichie:
 		self.profile = DisrichieProfile(path)
 
 	def stop(self):
-		if self.rpc: self.rpc.clear()
+		if self.legacy and self.running and self.rpc: self.rpc.clear()
 		if is_locked(): destroy_lockfile()
 		self.running = False
 
 	def start(self):
 		self.kill_instance(True)
 		init_lockfile()
-		
+
 		if not self.client_id:
 			print('No client ID has been set. See help for more information.')
 			return
 		if self.dont_wait:
 			self.spawn_background()
 			return
+		if not self.legacy:
+			self.gamesdk = GameSDK(int(self.client_id), discordsdk.CreateFlags.default)
+			activity_assets = ActivityAssets()
+			activity_assets.large_image = self.profile.large_image()
+			activity_assets.small_image = self.profile.small_image()
+			activity_assets.large_text = self.profile.large_image_text()
+			activity_assets.small_text = self.profile.small_image_text()
+			activity = Activity()
+			activity.details = self.profile.details()
+			activity.state = self.profile.state()
+			activity.timestamps.start = self.profile.start_timestamp()
+			activity.assets = activity_assets
+			activity.instance = True
+			self.gamesdk.get_activity_manager().update_activity(activity, self.callback)
+		elif self.legacy:
+			try:
+				self.rpc = DiscordRPC(str(self.client_id))
+				self.rpc.connect()
+			except KeyboardInterrupt:
+				# Interruption was caught during initialization, so do nothing instead
+				return
+			except DiscordError as error:
+				print(error.message)
+				return
+			except DiscordNotFound:
+				print('Discord is not running or installed')
+				return
+			
+			self.rpc.update(details=self.profile.details(), state=self.profile.state(),
+				start=self.profile.start_timestamp(),
+				large_image=self.profile.large_image(), small_image=self.profile.small_image(),
+				large_text=self.profile.large_image_text(), small_text=self.profile.small_image_text(),
+				buttons=self.profile.buttons())
 
-		try:
-			self.rpc = Presence(client_id=str(self.client_id))
-			self.rpc.connect()
-		except DiscordError as error:
-			print(error.message)
-			return
-		except DiscordNotFound:
-			print('Discord is not running or installed')
-			return
-
-		self.rpc.update(state=self.profile.state(), details=self.profile.details(),
-			start=self.profile.start_timestamp(),
-			large_image=self.profile.large_image(), small_image=self.profile.small_image(),
-			large_text=self.profile.large_image_text(), small_text=self.profile.small_image_text(),
-			buttons=self.profile.buttons())
-		print('Rich Presence is now visible!')
 		self.running = True
 		self.wait()
+
+	def callback(self, result):
+		# Dummy callback function for Discord GameSDK
+		pass
 
 	def wait(self):
 		try:
 			while self.running:
+				if not self.legacy:
+					time.sleep(1 / 10)
+					self.gamesdk.run_callbacks()
+					continue
+
 				time.sleep(15)
 		except KeyboardInterrupt:
 			pass

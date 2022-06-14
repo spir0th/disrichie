@@ -9,7 +9,7 @@ class RichPresenceLibraryError(Exception):
 		if library == 0:
 			library_name = "Discord RPC";
 		elif library == 1:
-			library_name = "GameSDK";
+			library_name = "Discord GameSDK";
 		if library_name == "":
 			raise NoRichPresenceLibraryError()
 

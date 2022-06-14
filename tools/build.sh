@@ -5,7 +5,8 @@ startPackage() {
 	echo "Start: Build Standalone version"
 	pyinstaller disrichie --clean --noconfirm \
 		--path "./scripts" --workpath "./dist/build" \
-		--specpath "./dist" --version-file "../assets/version_info.txt"
+		--specpath "./dist" --version-file "../assets/version_info.txt" \
+		--add-binary "../lib/*:lib"
 }
 
 pyinstallerCheckFailed() {

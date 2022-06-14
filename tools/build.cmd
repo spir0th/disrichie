@@ -19,7 +19,7 @@ echo Start: Build Standalone version
 pyinstaller disrichie --clean --noconfirm ^
 	--icon "../assets/disrichie.ico" --path "./scripts" ^
 	--workpath "./dist/build" --specpath "./dist" ^
-	--version-file "../assets/version_info.txt"
+	--version-file "../assets/version_info.txt" --add-binary "../lib/*;lib"
 goto:eof
 
 :pyinstallerCheckFailed

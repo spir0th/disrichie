@@ -29,15 +29,16 @@ def handle_launcher_args():
 	if '-h' in sys.argv or '--help' in sys.argv:
 		print('disrichie - A simple program to display custom Rich Presence on Discord!')
 		print('\nArguments:')
-		print('	-h / --help : Display help information')
-		print('	-v / --version : Print program version')
 		print('	-p / --profile : Specify Rich Presence profile')
 		print('	-i / --id : Specify Client ID for Rich Presence')
 		print('	--wait : Do not put Disrichie into background and wait to end')
+		print('	--legacy : Use the old Discord-RPC library instead of Discord GameSDK')
 		print('\nLauncher arguments:')
-		print('	--cache : Enable caching for this session')
+		print('	-h / --help : Display help information')
+		print('	-v / --version : Print program version')
+		print('	--cache : Enable caching for this instance')
 		print('	--tracebacks : Print not only the error but from where it was fired')
-		print('\nYou can view more information here: NULL')
+		# print('\nYou can view more information here: NULL')
 		exit()
 
 def check_interactive():
