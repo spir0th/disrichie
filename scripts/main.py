@@ -40,10 +40,6 @@ class Disrichie:
 		options: list[str] = ['--cancel', '--wait']
 
 		for index, argument in enumerate(self.args):
-			if argument == "-i" or argument == "--id" and \
-				len(self.args) > index + 1 and \
-					self.args[index + 1] not in options:
-				self.init_client_id(self.args[index + 1])
 			if argument == "-p" or argument == "--profile" and \
 				len(self.args) > index + 1 and \
 					self.args[index + 1] not in options:
@@ -91,21 +87,10 @@ class Disrichie:
 			subprocess.Popen(args=[executable, 'disrichie'] + argv,
 				stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
-	def init_client_id(self, id: str):
-		if os.path.isfile(id):
-			file = open(id, 'r')
-			self.client_id = file.readline()
-			file.close()
-			return
-		if any(char.isalpha() for char in id) or \
-			re.compile('[@_!#$%^&*()<>?/\|}{~:]').search(id) != None:
-			raise ClientIDSyntaxError()
-		
-		self.client_id = int(id)
-
 	def init_profile(self, path: str):
 		if not os.path.isfile(path): raise ProfileNotFoundError()
 		self.profile = Profile(path)
+		self.client_id = self.profile.client_id()
 
 	def stop(self):
 		if self.running and self.rpc: self.rpc.clear()
@@ -117,7 +102,7 @@ class Disrichie:
 		init_lockfile()
 
 		if not self.client_id:
-			print('No client ID has been set. See help for more information.')
+			print('No client ID has been set for specified profile. See help for more information.')
 			return
 		if self.dont_wait:
 			self.spawn_background()

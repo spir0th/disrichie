@@ -28,12 +28,23 @@ class Profile:
 	def invalidate(self):
 		if self.data == None: raise ProfileInvalidationError()
 
+	def client_id(self) -> int:
+		if 'client_id' not in self.data or \
+			not isinstance(self.data['client_id'], int) or \
+			not self.data['client_id']: return 0
+		
+		return int(self.data['client_id'])
+
 	def details(self) -> str:
-		if 'details' not in self.data or not self.data['details']: return None
+		if 'details' not in self.data or \
+			not isinstance(self.data['details'], str) or \
+			not self.data['details']: return None
 		return str(self.data['details'])
 
 	def state(self) -> str:
-		if 'state' not in self.data or not self.data['state']: return None
+		if 'state' not in self.data or \
+			not isinstance(self.data['state'], str) or \
+			not self.data['state']: return None
 		return str(self.data['state'])
 	
 	def start_timestamp(self) -> float:
@@ -45,24 +56,28 @@ class Profile:
 
 	def large_image(self) -> str:
 		if 'largeImage' not in self.data or \
+			not isinstance(self.data['largeImage'], str) or \
 			not self.data['largeImage']: return None
 		
 		return str(self.data['largeImage'])
 
 	def small_image(self) -> str:
 		if 'smallImage' not in self.data or \
+			not isinstance(self.data['smallImage'], str) or \
 			not self.data['smallImage']: return None
 		
 		return str(self.data['smallImage'])
 
 	def large_image_text(self) -> str:
 		if 'largeImageText' not in self.data or \
+			not isinstance(self.data['largeImageText'], str) or \
 			not self.data['largeImageText']: return None
 		
 		return str(self.data['largeImageText'])
 	
 	def small_image_text(self) -> str:
 		if 'smallImageText' not in self.data or \
+			not isinstance(self.data['smallImageText'], str) or \
 			not self.data['smallImageText']: return None
 		
 		return str(self.data['smallImageText'])
