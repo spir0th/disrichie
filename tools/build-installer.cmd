@@ -24,7 +24,6 @@ if not exist installer/files.zip (
 	echo After that, move it to the installer directory
 )
 
-exit 1
 goto:eof
 
 :startPackage
