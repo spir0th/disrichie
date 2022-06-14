@@ -128,9 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Third-party libraries
-lib
-
 # Distribution files
 dist
 installer/files.zip

@@ -20,18 +20,6 @@ Disrichie requires the latest version of Python (or Python 3.10 at least) with t
 
 And, if you don't have the required modules/packages installed, you can execute `tools/setupenv.cmd`
 
-## Getting Discord GameSDK
-As of commit [3176621](https://github.com/gianxddddd/disrichie/commit/31766212290f029a9ff8c3f4ff26e92926197303), Disrichie now uses Discord GameSDK by default (instead of the old Discord-RPC)
-
-In order to run Disrichie right now is to get the required GameSDK libraries.
-
-- Get it [here.](https://dl-game-sdk.discordapp.net/2.5.6/discord_game_sdk.zip)
-- Extract it and copy `lib/x86_64/discord_game_sdk.dll` to `disrichie/lib`
-	- Library files might differ, for example:
-		- `discord_game_sdk.so` for UNIX-like OSes
-
-If you tend to use the legacy library (Discord-RPC), you still need to do these steps because `main.py` does not have the ability to optionally import the GameSDK modules.
-
 ## Running
 Now that you have done all of the previous instructions, you can now run Disrichie by executing:
 ```shell
@@ -45,7 +33,6 @@ Arguments:
         -p / --profile : Specify Rich Presence profile
         -i / --id : Specify Client ID for Rich Presence
         --wait : Do not put Disrichie into background and wait to end        
-        --legacy : Use the old Discord-RPC library instead of Discord GameSDK
 
 Launcher arguments:
         -h / --help : Display help information
@@ -75,6 +62,8 @@ Once you have done the needed, you can now execute `tools/build-installer`, stil
 Since GameSDK was added and set as the default Rich Presence library, the Portable version was a bit.. Problematic. Yes, it was throwing errors that it couldn't find the library file.
 
 So I tried so hard, but none of my fixes did work and I don't have much time left fixing it, so I gave up, removed the build scripts related to the Portable version, then wrote this question & answer.
+
+**UPDATE: I removed GameSDK because it hurts my head, so another reason would be a duplication of running Disrichie directly from a Python interpreter**
 
 ## UNIX-like OS support? (e.g Linux, macOS, FreeBSD)
 Partially supported.

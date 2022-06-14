@@ -32,7 +32,6 @@ def handle_launcher_args():
 		print('	-p / --profile : Specify Rich Presence profile')
 		print('	-i / --id : Specify Client ID for Rich Presence')
 		print('	--wait : Do not put Disrichie into background and wait to end')
-		print('	--legacy : Use the old Discord-RPC library instead of Discord GameSDK')
 		print('\nLauncher arguments:')
 		print('	-h / --help : Display help information')
 		print('	-v / --version : Print program version')
