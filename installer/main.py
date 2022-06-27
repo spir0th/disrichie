@@ -1,4 +1,8 @@
-import appdirs
+try:
+	import appdirs
+except ModuleNotFoundError:
+	raise RuntimeError('One of the required modules known as "appdirs" isn\'t installed.')
+
 import os
 from sys import exit
 import sys
