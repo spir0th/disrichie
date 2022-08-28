@@ -7,8 +7,8 @@ try:
 	from pypresence import DiscordError
 	from pypresence import DiscordNotFound
 	from pypresence import Presence as DiscordRPC
-except ModuleNotFoundError as error:
-	raise RuntimeError(f"Failed to load required modules: {error.msg}")
+except ModuleNotFoundError:
+	raise RuntimeError('Could not find a proper Discord Rich Presence library.') from None
 
 import os
 import platform
