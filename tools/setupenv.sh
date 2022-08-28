@@ -1,12 +1,12 @@
 # setupenv.sh - UNIX wrapper for the setupenv.cmd script
 # Define some error functions
 py_check_failed() {
-	echo "Error: Python 3 is required to run disrichie for interpreted run, but is not installed."
+	echo "Error: Python 3 is required for disrichie to be ran, but is not installed."
 	exit 1
 }
 
 pip_check_failed() {
-	echo "Error: pip is required to install required modules/packages for disrichie, and is not installed."
+	echo "Error: pip is required to install required modules for disrichie, and is not installed."
 	exit 1
 }
 
@@ -28,7 +28,7 @@ fi
 
 # Install required modules
 echo "Install: Required Modules"
-pip install pypresence appdirs pillow
+pip install pypresence
 
 # Then exit the script
 echo "Done"

@@ -12,7 +12,7 @@ if errorlevel 1 goto pipCheckFailed
 
 :: Install required modules
 echo Install: Required Modules
-pip install pypresence appdirs pillow
+pip install pypresence
 
 :: Then exit the script
 echo Done
@@ -20,7 +20,7 @@ goto:eof
 
 :: Define some error functions
 :pyCheckFailed
-echo Error: Python 3 is required to run disrichie for interpreted run, but is not installed.
+echo Error: Python 3 is required for disrichie to be ran, but is not installed.
 
 :pipCheckFailed
-echo Error: pip is required to install required modules/packages for disrichie, and is not installed.
+echo Error: pip is required to install required modules for disrichie, and is not installed.
