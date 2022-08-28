@@ -65,7 +65,7 @@ def launch():
 	except ModuleNotFoundError:
 		raise DisrichieMainError()
 
-# Main code
+# Main process code for this script
 check_interactive()
 check_py_version()
 handle_launcher_args()
