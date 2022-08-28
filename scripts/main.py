@@ -12,7 +12,6 @@ except ModuleNotFoundError as error:
 
 import os
 import platform
-import re
 import signal
 import subprocess
 from sys import executable
@@ -24,7 +23,7 @@ if __name__ == '__main__':
 
 class Disrichie:
 	dont_wait: bool = True # Must spawn a background process unless the --wait option is appended
-	client_id: int = 0 # Required to be set from the command-line
+	client_id: int = 0 # Required to be set from the command-line or the profile
 	profile: Profile = Profile() # Load with no keys
 	rpc: DiscordRPC = None
 	running: bool = False
@@ -37,13 +36,36 @@ class Disrichie:
 		self.stop()
 
 	def parse_args(self):
+		arguments: list[str] = ['-i', '--id', '-d',
+			'--id', '-s', '--state', '--elapsed',
+			'--large-image-key', '--large-image-text',
+			'--small-image-key', '--small-image-text']
 		options: list[str] = ['--cancel', '--wait']
 
 		for index, argument in enumerate(self.args):
-			if argument == "-p" or argument == "--profile" and \
-				len(self.args) > index + 1 and \
-					self.args[index + 1] not in options:
-				self.init_profile(self.args[index + 1])
+			if index == 0 and \
+				argument not in arguments and \
+					argument not in options:
+					self.init_profile(argument)
+
+			if len(self.args) < index + 1:
+				continue
+			if argument == "-i" or argument == "--id":
+				self.client_id = self.args[index + 1]
+			if argument == "-d" or argument == "--details":
+				self.profile.data["details"] = self.args[index + 1]
+			if argument == "-s" or argument == "--state":
+				self.profile.data["state"] = self.args[index + 1]
+			if argument == "--elapsed":
+				self.profile.data["elapsed"] = self.args[index + 1]
+			if argument == "--large-image-key":
+				self.profile.data["largeImageKey"] = self.args[index + 1]
+			if argument == "--large-image-text":
+				self.profile.data["largeImageText"] = self.args[index + 1]
+			if argument == "--small-image-key":
+				self.profile.data["smallImageKey"] = self.args[index + 1]
+			if argument == "--small-image-text":
+				self.profile.data["smallImageText"] = self.args[index + 1]
 
 		for option in options:
 			if option not in self.args: continue
@@ -82,7 +104,8 @@ class Disrichie:
 		if '--wait' not in argv: argv.append('--wait')
 
 		if platform.system() == 'Windows':
-			subprocess.Popen(args=[executable, 'disrichie'] + argv, creationflags=subprocess.DETACHED_PROCESS)
+			subprocess.Popen(args=[executable, 'disrichie'] + argv,
+				creationflags=subprocess.DETACHED_PROCESS)
 		else:
 			subprocess.Popen(args=[executable, 'disrichie'] + argv,
 				stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -102,7 +125,7 @@ class Disrichie:
 		init_lockfile()
 
 		if not self.client_id:
-			print('No client ID has been set for specified profile. See help for more information.')
+			print('No client ID has been set. See help for more information.')
 			return
 		if self.dont_wait:
 			self.spawn_background()
@@ -122,8 +145,8 @@ class Disrichie:
 			return
 
 		self.rpc.update(details=self.profile.details(), state=self.profile.state(),
-			start=self.profile.start_timestamp(),
-			large_image=self.profile.large_image(), small_image=self.profile.small_image(),
+			start=self.profile.elapsed(),
+			large_image=self.profile.large_image_key(), small_image=self.profile.small_image_key(),
 			large_text=self.profile.large_image_text(), small_text=self.profile.small_image_text(),
 			buttons=self.profile.buttons())
 
