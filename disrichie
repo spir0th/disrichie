@@ -29,10 +29,10 @@ def handle_launcher_args():
 	if '-h' in sys.argv or '--help' in sys.argv:
 		print('disrichie - A simple program to display custom Rich Presence on Discord!')
 		print('\nArguments:')
-		print('	-i / --id : Client ID to be used for this Rich Presence')
 		print('	--cancel : Closes the locked Disrichie instance')
 		print('	--wait : Do not put Disrichie into background and wait')
 		print('\nRich Presence arguments:')
+		print('	-i / --id : Client ID to be used for this Rich Presence')
 		print('	-d / --details : Used to display below the Rich Presence name')
 		print('	-s / --state : Used to display below the details')
 		print('	--elapsed : Shows the elapsed time if set')
