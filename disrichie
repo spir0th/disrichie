@@ -30,7 +30,7 @@ def handle_launcher_args():
 		print('disrichie - A simple program to display custom Rich Presence on Discord!')
 		print('\nArguments:')
 		print('	--cancel : Closes the locked Disrichie instance')
-		print('	--wait : Do not put Disrichie into background and wait')
+		print('	--wait : Do not put Disrichie into background and wait for it to end')
 		print('\nRich Presence arguments:')
 		print('	-i / --id : Client ID to be used for this Rich Presence')
 		print('	-d / --details : Used to display below the Rich Presence name')
