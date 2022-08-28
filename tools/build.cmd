@@ -19,10 +19,10 @@ echo Start: Build Standalone version
 pyinstaller disrichie --clean --noconfirm ^
 	--icon "../assets/disrichie.ico" --path "./scripts" ^
 	--workpath "./dist/build" --specpath "./dist" ^
-	--version-file "../assets/version_info.txt" --add-binary "../lib/*;lib"
+	--version-file "../assets/version_info.txt"
 goto:eof
 
 :pyinstallerCheckFailed
-echo Error: pyinstaller is required for packaging disrichie into a binary executable, and is not installed.
+echo Error: pyinstaller is required for packaging the Standalone version, and is not installed.
 echo Install it using: pip install pyinstaller
 goto:eof
