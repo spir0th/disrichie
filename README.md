@@ -25,6 +25,20 @@ $ python disrichie -h
 
 And you'll be greeted with the help info.
 
+# Examples
+If you don't know how Disrichie works, let's try for an example:
+```shell
+$ disrichie -i 1013811673666158686
+```
+
+The `-i` option is where you put your client ID of your Application, you can create a new one at Discord's [Developer Portal](https://discord.com/developers/applications) and use it's client ID.
+
+In your application, you can set the Rich Presence name there and upload the assets if you want to display images.
+
+**The one used in the example is the ID from the `examples` directory.**
+
+If you want more examples of this, read the help information, or if in easy way, use [Profiles](docs/PROFILES.md) instead. You can always find more profile examples at the `examples` directory.
+
 # FAQ
 ## UNIX-like OS support? (e.g Linux, macOS, FreeBSD)
 Partially supported.
