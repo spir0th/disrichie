@@ -22,6 +22,7 @@ class InstallerInitError(Exception):
 
 root: Tk = None
 path: StringVar = None
+verbose: bool = False
 extracting: bool = False
 
 def get_resource(path: str) -> str:
@@ -67,15 +68,18 @@ def abort(loop_if_no: bool = False):
 		else: pass
 
 def fail(reason: str):
-	global extracting
+	global extracting, verbose
 	if extracting: extracting = False
+	if verbose: print(f"Install failure: {reason}")
 	messagebox.showerror('Installation error', reason)
 	switch(4)
 
 def clear():
-	global root
+	global root, verbose
 	if not root: raise InstallerInitError()
 
+	if verbose:
+		print(f"Cleared {len(root.winfo_children())} children from UI stack.")
 	for widget in root.winfo_children():
 		widget.destroy()
 
@@ -112,8 +116,17 @@ def switch(index: int = 0):
 		btn2 = Button(btn_frame, text='Exit', command=lambda: abort())
 		btn2.pack(in_=btn_frame, side=RIGHT)
 	elif index == 1: # Destination screen
-		# Initialize path if not
-		if not path: path = StringVar(value=f"{appdirs.user_data_dir()}/disrichie")
+		# Initialize path if not set
+		if not path:
+			default_path = f"{appdirs.user_data_dir()}/disrichie"
+			if verbose: print(f"No output path set, default is {default_path}")
+			path = StringVar(value=default_path)
+		else:
+			if verbose:
+				print('Output path has already been set, prompting to install.')
+
+			switch(2)
+			return
 
 		# Create header
 		header = Label(root, text='Destination Location')
@@ -164,7 +177,6 @@ def switch(index: int = 0):
 		bar.pack(side=TOP, anchor=NW, padx=8)
 
 		# Extract required files
-		os.makedirs(path.get(), exist_ok=True)
 		files = get_resource("files.zip")
 
 		if not os.path.isfile(files):
@@ -174,15 +186,22 @@ def switch(index: int = 0):
 
 		zipfile = ZipFile(files)
 		uncompressed_size = sum(file.file_size for file in zipfile.infolist())
+		os.makedirs(path.get(), exist_ok=True)
 		extract_size = 0
 
+		if verbose:
+			print('Installing required files..')
 		for file in zipfile.infolist():
+			if verbose:
+				print(f"Extracting {file.filename}")
+
 			extract_size += file.file_size
 			status_text_str.set('Unpacking...')
 			bar['value'] = extract_size * 100 / uncompressed_size
 			zipfile.extract(file, path.get())
 		
 		# Close zipfile to save memory, unlock the exit button, then switch to 4th screen
+		if verbose: print('Done installing files.')
 		zipfile.close()
 		extracting = False
 		switch(3)
@@ -215,6 +234,24 @@ def switch(index: int = 0):
 		btn = Button(root, text='Close', command=lambda: exit(1))
 		btn.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
 
+def parse_args():
+	global root, path, verbose
+	args = sys.argv[1:]
+
+	for index, argument in enumerate(args):
+		if argument == '-h' or argument == '--help':
+			print('-h / --h : View help information')
+			print('-o / --output : Set output path for extract')
+			print('-v / --verbose : Enable verbose logging')
+			exit()
+		if len(args) > index + 1:
+			continue
+		if argument == '-o' or argument == '--output':
+			path = StringVar(root, args[index + 1])
+		if argument == '-v' or argument == '--verbose':
+			print('Verbose logging is enabled.')
+			verbose = True
+
 def loop():
 	global root
 	if not root: raise InstallerInitError()
@@ -232,5 +269,6 @@ except TclError as error:
 		exit(1)
 	else: pass
 
+parse_args()
 switch()
 loop()
