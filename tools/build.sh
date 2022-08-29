@@ -5,12 +5,11 @@ startPackage() {
 	echo "Start: Build Standalone version"
 	pyinstaller disrichie --clean --noconfirm \
 		--path "./scripts" --workpath "./dist/build" \
-		--specpath "./dist" --version-file "../assets/version_info.txt" \
-		--add-binary "../lib/*:lib"
+		--specpath "./dist" --version-file "../assets/version_info.txt"
 }
 
 pyinstallerCheckFailed() {
-	echo "Error: pyinstaller is required for packaging disrichie into a binary executable, and is not installed."
+	echo "Error: pyinstaller is required for building the Standalone version, and is not installed."
 	echo "Install it using: pip install pyinstaller"
 	exit 1
 }

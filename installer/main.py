@@ -28,16 +28,16 @@ root: Tk = None
 path: StringVar = None
 extracting: bool = False
 
-def resources_path() -> str:
+def get_resource(path: str) -> str:
 	# This function is necessary when it is built into an executable
-	if not hasattr(sys, '_MEIPASS'): return ''
-	return f"{sys._MEIPASS}/"
+	if not hasattr(sys, '_MEIPASS'): return path
+	return f"{sys._MEIPASS}/{path}"
 
 def init():
 	global root
 	if not root: root = Tk()
 	root.protocol('WM_DELETE_WINDOW', abort)
-	root.iconbitmap(f"{resources_path()}installer.ico")
+	root.iconbitmap(get_resource("installer.ico"))
 	root.title('Disrichie')
 	root.resizable(False, False)
 	center()
@@ -57,8 +57,8 @@ def center():
 	screen_height = root.winfo_screenheight()
 	x_cordinate = int((screen_width / 2) - (window_width / 2))
 	y_cordinate = int((screen_height / 2) - (window_height / 2))
-
-	root.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+	
+	root.geometry(f"{window_width}x{window_height}+{x_cordinate}+{y_cordinate}")
 
 def abort(loop_if_no: bool = False):
 	global extracting
@@ -169,13 +169,14 @@ def switch(index: int = 0):
 
 		# Extract required files
 		os.makedirs(path.get(), exist_ok=True)
+		files = get_resource("files.zip")
 
-		if not os.path.isfile(f"{resources_path()}files.zip"):
+		if not os.path.isfile(files):
 			status_text_str.set('Error')
 			fail('Missing installation files! Contact the author.')
 			return
 
-		zipfile = ZipFile(f"{resources_path()}files.zip")
+		zipfile = ZipFile(files)
 		uncompressed_size = sum(file.file_size for file in zipfile.infolist())
 		extract_size = 0
 
@@ -185,7 +186,7 @@ def switch(index: int = 0):
 			bar['value'] = extract_size * 100 / uncompressed_size
 			zipfile.extract(file, path.get())
 		
-		# Close zipfile to save memory, then unlock the exit button, then switch to 4th screen
+		# Close zipfile to save memory, unlock the exit button, then switch to 4th screen
 		zipfile.close()
 		extracting = False
 		switch(3)

@@ -21,7 +21,7 @@ VSVersionInfo(
         StringStruct('LegalCopyright', ''),
         StringStruct('OriginalFilename', 'disrichie.py'),
         StringStruct('ProductName', 'Rich Presence Tool'),
-        StringStruct('ProductVersion', '1.0.3')])
+        StringStruct('ProductVersion', '1.0.4')])
       ]), 
     VarFileInfo([VarStruct('Translation', [1033, 1200])])
   ]

@@ -47,24 +47,24 @@ class Profile:
 			not self.data['state']: return None
 		return str(self.data['state'])
 	
-	def start_timestamp(self) -> float:
-		if 'displayElapsed' not in self.data or \
-			not isinstance(self.data['displayElapsed'], bool) or \
-			not self.data['displayElapsed']: return None
+	def elapsed(self) -> float:
+		if 'elapsed' not in self.data or \
+			not isinstance(self.data['elapsed'], bool) or \
+			not self.data['elapsed']: return None
 		
 		return float(datetime.datetime.now().timestamp())
 
-	def large_image(self) -> str:
-		if 'largeImage' not in self.data or \
-			not isinstance(self.data['largeImage'], str) or \
-			not self.data['largeImage']: return None
+	def large_image_key(self) -> str:
+		if 'largeImageKey' not in self.data or \
+			not isinstance(self.data['largeImageKey'], str) or \
+			not self.data['largeImageKey']: return None
 		
 		return str(self.data['largeImage'])
 
-	def small_image(self) -> str:
-		if 'smallImage' not in self.data or \
-			not isinstance(self.data['smallImage'], str) or \
-			not self.data['smallImage']: return None
+	def small_image_key(self) -> str:
+		if 'smallImageKey' not in self.data or \
+			not isinstance(self.data['smallImageKey'], str) or \
+			not self.data['smallImageKey']: return None
 		
 		return str(self.data['smallImage'])
 
