@@ -29,11 +29,11 @@ class Profile:
 		if self.data == None: raise ProfileInvalidationError()
 
 	def client_id(self) -> int:
-		if 'client_id' not in self.data or \
-			not isinstance(self.data['client_id'], int) or \
-			not self.data['client_id']: return 0
+		if 'clientId' not in self.data or \
+			not isinstance(self.data['clientId'], int) or \
+			not self.data['clientId']: return 0
 		
-		return int(self.data['client_id'])
+		return int(self.data['clientId'])
 
 	def details(self) -> str:
 		if 'details' not in self.data or \
