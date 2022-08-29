@@ -59,14 +59,14 @@ class Profile:
 			not isinstance(self.data['largeImageKey'], str) or \
 			not self.data['largeImageKey']: return None
 		
-		return str(self.data['largeImage'])
+		return str(self.data['largeImageKey'])
 
 	def small_image_key(self) -> str:
 		if 'smallImageKey' not in self.data or \
 			not isinstance(self.data['smallImageKey'], str) or \
 			not self.data['smallImageKey']: return None
 		
-		return str(self.data['smallImage'])
+		return str(self.data['smallImageKey'])
 
 	def large_image_text(self) -> str:
 		if 'largeImageText' not in self.data or \
