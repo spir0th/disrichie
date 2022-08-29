@@ -24,7 +24,7 @@ def handle_launcher_args():
 	if '--tracebacks' not in sys.argv: sys.tracebacklimit = 0
 	if '--cache' not in sys.argv: sys.dont_write_bytecode = True
 	if '-v' in sys.argv or '--version' in sys.argv:
-		print('version 1.0.3')
+		print('version 1.0.4')
 		exit()
 	if '-h' in sys.argv or '--help' in sys.argv:
 		print('disrichie - A simple program to display custom Rich Presence on Discord!')
