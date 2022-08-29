@@ -28,7 +28,7 @@ fi
 
 # Install required modules
 echo "Install: Required Modules"
-pip install pypresence
+pip install pypresence appdirs
 
 # Then exit the script
 echo "Done"
