@@ -32,8 +32,9 @@ def get_resource(path: str) -> str:
 	return f"{sys._MEIPASS}/{path}"
 
 def init():
-	global root
+	global root, path
 	if not root: root = Tk()
+	if not path: path = StringVar(value=f"{appdirs.user_data_dir()}/disrichie")
 	root.withdraw()
 	root.protocol('WM_DELETE_WINDOW', abort)
 	root.iconbitmap(get_resource("installer.ico"))
@@ -46,6 +47,11 @@ def ask_dir(path: str) -> str:
 	new_path = askdirectory(initialdir=path if not path else None, mustexist=True)
 	if not new_path: return path
 	return new_path
+
+def reset_dir():
+	global path
+	def_path = StringVar(value=f"{appdirs.user_data_dir()}/disrichie")
+	path = def_path
 
 def resize_and_center():
 	global root
@@ -114,17 +120,13 @@ def switch(index: int = 0):
 		# Create navigation buttons
 		btn_frame = Frame(root)
 		btn_frame.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
-		btn = Button(btn_frame, text='Exit', command=lambda: abort())
+		btn = Button(btn_frame, text='Install', command=lambda: switch(2))
 		btn.pack(in_=btn_frame, side=RIGHT)
-		btn2 = Button(btn_frame, text='Install', command=lambda: switch(1))
+		btn2 = Button(btn_frame, text='Exit', command=lambda: abort())
 		btn2.pack(in_=btn_frame, side=RIGHT)
+		btn3 = Button(btn_frame, text='Configure', command=lambda: switch(1))
+		btn3.pack(in_=btn_frame, side=RIGHT)
 	elif index == 1: # Destination screen
-		# Initialize path if not set
-		if not path:
-			default_path = f"{appdirs.user_data_dir()}/disrichie"
-			if verbose: print(f"No output path set, default is {default_path}")
-			path = StringVar(value=default_path)
-
 		# Create header
 		header = Label(root, text='Destination Location')
 		font = Font(font=header['font'], weight='bold')
@@ -146,9 +148,9 @@ def switch(index: int = 0):
 		# Create navigation buttons
 		btn_frame = Frame(root)
 		btn_frame.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
-		btn = Button(btn_frame, text='Next', command=lambda: switch(2))
+		btn = Button(btn_frame, text='Done', command=lambda: switch())
 		btn.pack(in_=btn_frame, side=RIGHT)
-		btn2 = Button(btn_frame, text='Go back', command=lambda: switch(0))
+		btn2 = Button(btn_frame, text='Cancel', command=lambda: [reset_dir(), switch()])
 		btn2.pack(in_=btn_frame, side=RIGHT)
 	elif index == 2: # Installing page
 		# Lock the exit button
