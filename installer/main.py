@@ -22,6 +22,7 @@ class InstallerInitError(Exception):
 
 root: Tk = None
 path: StringVar = None
+bypass: bool = False
 verbose: bool = False
 extracting: bool = False
 
@@ -94,7 +95,7 @@ def draw_separators():
 	navigation_sep.place(relx=0, rely=0.92, relwidth=1, relheight=1)
 
 def switch(index: int = 0):
-	global root, path, extracting
+	global root, path, extracting, bypass
 	if not root and not path: raise InstallerInitError()
 	if len(root.winfo_children()) > 0: clear()
 	if index < 5: draw_separators()
@@ -181,9 +182,13 @@ def switch(index: int = 0):
 		# Extract required files
 		files = get_resource("files.zip")
 
+		if bypass:
+			switch(3)
+			extracting = False
+			return
 		if not os.path.isfile(files):
 			status_text_str.set('Error')
-			fail('Missing installation files! Contact the author.')
+			fail('Cannot find setup files.')
 			return
 
 		zipfile = ZipFile(files)
@@ -192,18 +197,18 @@ def switch(index: int = 0):
 		extract_size = 0
 
 		if verbose:
-			print('Installing required files..')
+			print('Installing...')
 		for file in zipfile.infolist():
 			if verbose:
 				print(f"Extracting {file.filename}")
 
 			extract_size += file.file_size
-			status_text_str.set('Unpacking...')
+			status_text_str.set('Copying new files')
 			bar['value'] = extract_size * 100 / uncompressed_size
 			zipfile.extract(file, path.get())
 		
 		# Close zipfile to save memory, unlock the exit button, then switch to 4th screen
-		if verbose: print('Done installing files.')
+		if verbose: print('Done')
 		zipfile.close()
 		extracting = False
 		switch(3)
@@ -237,7 +242,7 @@ def switch(index: int = 0):
 		btn.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
 
 def parse_args():
-	global root, path, verbose
+	global root, path, bypass, verbose
 	args = sys.argv[1:]
 
 	for index, argument in enumerate(args):
@@ -245,9 +250,12 @@ def parse_args():
 			print('-h / --h : View help information')
 			print('-o / --output : Set output path for extract')
 			print('-v / --verbose : Enable verbose logging')
+			print('--bypass : Skip installation, used for testing purposes')
 			exit()
 		if len(args) > index + 1:
 			continue
+		if argument == '--bypass':
+			bypass = True
 		if argument == '-o' or argument == '--output':
 			path = StringVar(root, args[index + 1])
 		if argument == '-v' or argument == '--verbose':
