@@ -33,18 +33,20 @@ def get_resource(path: str) -> str:
 def init():
 	global root
 	if not root: root = Tk()
+	root.withdraw()
 	root.protocol('WM_DELETE_WINDOW', abort)
 	root.iconbitmap(get_resource("installer.ico"))
 	root.title('Disrichie')
 	root.resizable(False, False)
-	center()
+	resize_and_center()
+	root.deiconify()
 
 def ask_dir(path: str) -> str:
 	new_path = askdirectory(initialdir=path if not path else None, mustexist=True)
 	if not new_path: return path
 	return new_path
 
-def center():
+def resize_and_center():
 	global root
 	if not root: raise InstallerInitError()
 
@@ -52,10 +54,10 @@ def center():
 	window_width = 500
 	screen_width = root.winfo_screenwidth()
 	screen_height = root.winfo_screenheight()
-	x_cordinate = int((screen_width / 2) - (window_width / 2))
-	y_cordinate = int((screen_height / 2) - (window_height / 2))
+	x_coordinate = int((screen_width / 2) - (window_width / 2))
+	y_coordinate = int((screen_height / 2) - (window_height / 2))
 	
-	root.geometry(f"{window_width}x{window_height}+{x_cordinate}+{y_cordinate}")
+	root.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
 
 def abort(loop_if_no: bool = False):
 	global extracting
