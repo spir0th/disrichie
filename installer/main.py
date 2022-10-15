@@ -114,9 +114,9 @@ def switch(index: int = 0):
 		# Create navigation buttons
 		btn_frame = Frame(root)
 		btn_frame.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
-		btn = Button(btn_frame, text='Install', command=lambda: switch(1))
+		btn = Button(btn_frame, text='Exit', command=lambda: abort())
 		btn.pack(in_=btn_frame, side=RIGHT)
-		btn2 = Button(btn_frame, text='Exit', command=lambda: abort())
+		btn2 = Button(btn_frame, text='Install', command=lambda: switch(1))
 		btn2.pack(in_=btn_frame, side=RIGHT)
 	elif index == 1: # Destination screen
 		# Initialize path if not set
@@ -251,7 +251,6 @@ def parse_args():
 			print('-o / --output : Set output path for extract')
 			print('-v / --verbose : Enable verbose logging')
 			print('--bypass : Skip installation, used for testing purposes')
-			exit()
 		if len(args) > index + 1:
 			continue
 		if argument == '--bypass':
