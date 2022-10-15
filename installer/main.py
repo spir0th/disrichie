@@ -124,12 +124,6 @@ def switch(index: int = 0):
 			default_path = f"{appdirs.user_data_dir()}/disrichie"
 			if verbose: print(f"No output path set, default is {default_path}")
 			path = StringVar(value=default_path)
-		else:
-			if verbose:
-				print('Output path has already been set, prompting to install.')
-
-			switch(2)
-			return
 
 		# Create header
 		header = Label(root, text='Destination Location')
