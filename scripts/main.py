@@ -37,7 +37,7 @@ class Disrichie:
 
 	def parse_args(self):
 		arguments: list[str] = ['-i', '--id', '-d',
-			'--id', '-s', '--state', '--elapsed',
+			'--details', '-s', '--state', '--elapsed',
 			'--large-image-key', '--large-image-text',
 			'--small-image-key', '--small-image-text']
 		options: list[str] = ['--cancel', '--wait']
