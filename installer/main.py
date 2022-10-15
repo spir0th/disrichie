@@ -103,7 +103,7 @@ def switch(index: int = 0):
 	if index == 0: # Welcome screen
 		# Create header
 		header = Label(root, text='Welcome')
-		font = Font(font=header['font'])
+		font = Font(font=header['font'], weight='bold')
 		header.config(font=(font.actual(), 18))
 		header.pack(side=TOP, anchor=NW, padx=8, pady=8)
 
@@ -133,7 +133,7 @@ def switch(index: int = 0):
 
 		# Create header
 		header = Label(root, text='Destination Location')
-		font = Font(font=header['font'])
+		font = Font(font=header['font'], weight='bold')
 		header.config(font=(font.actual(), 18))
 		header.pack(side=TOP, anchor=NW, padx=8, pady=8)
 
@@ -162,7 +162,7 @@ def switch(index: int = 0):
 
 		# Create header
 		header = Label(root, text='Installing')
-		font = Font(font=header['font'])
+		font = Font(font=header['font'], weight='bold')
 		header.config(font=(font.actual(), 18))
 		header.pack(side=TOP, anchor=NW, padx=8, pady=8)
 
@@ -214,8 +214,8 @@ def switch(index: int = 0):
 		switch(3)
 	elif index == 3: # Installation success screen
 		# Create header
-		header = Label(root, text='Install success')
-		font = Font(font=header['font'])
+		header = Label(root, text='Installation successful')
+		font = Font(font=header['font'], weight='bold')
 		header.config(font=(font.actual(), 18))
 		header.pack(side=TOP, anchor=NW, padx=8, pady=8)
 
@@ -226,10 +226,10 @@ def switch(index: int = 0):
 		# Create exit button
 		btn = Button(root, text='Close', command=lambda: exit())
 		btn.pack(side=BOTTOM, anchor=E, padx=8, pady=8)
-	elif index == 4: # Failed to install screen
+	elif index == 4: # Installation failed screen
 		# Create header
-		header = Label(root, text='Failed to install')
-		font = Font(font=header['font'])
+		header = Label(root, text='Installation failed')
+		font = Font(font=header['font'], weight='bold')
 		header.config(font=(font.actual(), 18))
 		header.pack(side=TOP, anchor=NW, padx=8, pady=8)
 
