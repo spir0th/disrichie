@@ -115,7 +115,8 @@ def switch(index: int = 0):
 		header.pack(side=TOP, anchor=NW, padx=8, pady=8)
 
 		# Create text
-		text = Label(root, text='To begin installation of Disrichie, click "Install" to proceed.')
+		text = Label(root, text='Disrichie will be installed by clicking "Install"'
+			+ ' or configure location before installing.')
 		text.pack(side=TOP, anchor=NW, padx=8)
 
 		# Create navigation buttons
