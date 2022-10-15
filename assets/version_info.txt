@@ -15,12 +15,12 @@ VSVersionInfo(
       StringTable(
         '040904B0',
         [StringStruct('CompanyName', 'GianXD'),
-        StringStruct('FileDescription', 'Disrichie'),
+        StringStruct('FileDescription', 'Rich Presence Tool'),
         StringStruct('FileVersion', '1.0.0'),
-        StringStruct('InternalName', 'disrichie'),
+        StringStruct('InternalName', 'cuppokek'),
         StringStruct('LegalCopyright', ''),
-        StringStruct('OriginalFilename', 'disrichie.py'),
-        StringStruct('ProductName', 'Rich Presence Tool'),
+        StringStruct('OriginalFilename', 'dsrchie.exe'),
+        StringStruct('ProductName', 'Disrichie'),
         StringStruct('ProductVersion', '1.0.4')])
       ]), 
     VarFileInfo([VarStruct('Translation', [1033, 1200])])
