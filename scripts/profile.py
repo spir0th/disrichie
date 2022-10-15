@@ -29,11 +29,11 @@ class Profile:
 		if self.data == None: raise ProfileInvalidationError()
 
 	def client_id(self) -> int:
-		if 'client_id' not in self.data or \
-			not isinstance(self.data['client_id'], int) or \
-			not self.data['client_id']: return 0
+		if 'clientId' not in self.data or \
+			not isinstance(self.data['clientId'], int) or \
+			not self.data['clientId']: return 0
 		
-		return int(self.data['client_id'])
+		return int(self.data['clientId'])
 
 	def details(self) -> str:
 		if 'details' not in self.data or \
@@ -59,14 +59,14 @@ class Profile:
 			not isinstance(self.data['largeImageKey'], str) or \
 			not self.data['largeImageKey']: return None
 		
-		return str(self.data['largeImage'])
+		return str(self.data['largeImageKey'])
 
 	def small_image_key(self) -> str:
 		if 'smallImageKey' not in self.data or \
 			not isinstance(self.data['smallImageKey'], str) or \
 			not self.data['smallImageKey']: return None
 		
-		return str(self.data['smallImage'])
+		return str(self.data['smallImageKey'])
 
 	def large_image_text(self) -> str:
 		if 'largeImageText' not in self.data or \

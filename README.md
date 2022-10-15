@@ -25,19 +25,30 @@ $ python disrichie -h
 
 And you'll be greeted with the help info.
 
+# Examples
+If you don't know how Disrichie works, let's try for an example:
+```shell
+$ disrichie -i 1013811673666158686
+```
+
+The `-i` option is where you put your client ID of your Application, you can create a new one at Discord's [Developer Portal](https://discord.com/developers/applications) and use it's client ID.
+
+In your application, you can set the Rich Presence name there and upload the assets if you want to display images.
+
+**The one used in the example is the ID from the `examples` directory.**
+
+If you want more examples of this, read the help information, or if in easy way, use [Profiles](docs/PROFILES.md) instead. You can always find more profile examples at the `examples` directory.
+
 # FAQ
 ## UNIX-like OS support? (e.g Linux, macOS, FreeBSD)
 Partially supported.
 
-## No GUI?
-I'm actually quite lazy to do that, I would rather use Qt or tkinter but just can't do it because I'm busy.
-
-## Why is this written in Python? Don't you write programs in C/C++ before?
-Since I moved back to Windows 10, It was so hard to setup a C/C++ workspace and I don't have time to choose whether I should use Visual Studio or MSYS2.
+## No GUI application?
+A GUI app might be useful for people who hasn't experienced programming, but it will take for some time to implement.
 
 # Contribute
 Contributing for Disrichie? You can do it anytime, on any file.
 
 As long it's good and working, this will make Disrichie even function better!
 
-### End of README.
+### End of README
