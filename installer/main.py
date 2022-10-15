@@ -44,7 +44,8 @@ def init():
 	root.deiconify()
 
 def ask_dir(path: str) -> str:
-	new_path = askdirectory(initialdir=path if not path else None, mustexist=True)
+	ask_title = 'Choose a destination location'
+	new_path = askdirectory(initialdir=path if not path else None, mustexist=True, title=ask_title)
 	if not new_path: return path
 	return new_path
 
