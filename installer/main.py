@@ -1,6 +1,5 @@
 import appdirs
 import os
-from sys import exit
 import sys
 
 try:
@@ -14,6 +13,7 @@ except ModuleNotFoundError:
 	raise RuntimeError('tkinter is not installed on your Python interpreter, '
 		'see https://stackoverflow.com/a/25905642/16378482 if you\'re using UNIX-based OS')
 
+from sys import exit
 from zipfile import ZipFile
 
 class InstallerInitError(Exception):
