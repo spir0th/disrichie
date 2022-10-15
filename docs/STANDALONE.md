@@ -19,8 +19,3 @@ If you also want to build the installer, you must check the following needs befo
 - Cleaned the `dist` directory
 
 Once you have done the needed, you can now execute `tools/build-installer`, still noted that you must be on the source directory when you do it.
-
-## Is it better than the normal version?
-For most people who don't know programming, yes.
-
-Without this, you are forced to install Python and Disrichie's require modules using `pip`, and it can be pain if you get errors.
