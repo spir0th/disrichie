@@ -21,7 +21,7 @@ VSVersionInfo(
         StringStruct('LegalCopyright', ''),
         StringStruct('OriginalFilename', 'dsrchie.exe'),
         StringStruct('ProductName', 'Disrichie'),
-        StringStruct('ProductVersion', '1.0.4')])
+        StringStruct('ProductVersion', '1.0.5')])
       ]), 
     VarFileInfo([VarStruct('Translation', [1033, 1200])])
   ]
