@@ -1,7 +1,7 @@
 # Profiles
 You might be feeling creative when you think of Disrichie Profiles, it's like a file holding full of information to be read and put into the Rich Presence details.
 
-Using them is an easy task compared to using the command-line options:
+Using them is an easy task compared to the command-line options:
 ```shell
 # Imagine doing this
 $ disrichie -i CLIENT_ID -d "Let's play some games!" \
@@ -11,7 +11,7 @@ $ disrichie -i CLIENT_ID -d "Let's play some games!" \
 $ disrichie myrpc.json
 ```
 
-Another big reason to use the profiles instead of the command-line options is [Buttons!](#button) They can only be set on profiles.
+Big Con for the command-line options is the [Buttons!](#button) as they can only be set on profiles.
 
 ## What are they?
 Disrichie profiles are stored in plain JSON files, containing various information about the details of Rich Presence.
@@ -40,7 +40,7 @@ Here's an explanation about the example:
 | `largeImageKey` 	| Used to retrieve the image from your Rich Presence, upload it on the Developer Portal first. 	| `str` 	|
 | `largeImageText` 	| Used to display when large image is hovered, leaving this unset or blank may not display. 	| `str` 	|
 | `smallImageKey` 	| Just like `largeImageKey`, but is placed in the bottom-right corner of it. 	| `str` 	|
-| `buttons` 	| A list of buttons used to display on your Rich Presence, refer to [Button references](#button-references) if you want to see the keys. | `list[dict]` 	|
+| `buttons` 	| A list of buttons used to display on your Rich Presence, refer to [Button references](#button-references) if you want to see the structure. | `list[dict]` 	|
 
 ### Button
 | Key 	| Description 	| Type 	|
