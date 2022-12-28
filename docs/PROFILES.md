@@ -11,10 +11,8 @@ $ disrichie -i CLIENT_ID -d "Let's play some games!" \
 $ disrichie myrpc.json
 ```
 
-Big Con for the command-line options is the [Buttons!](#button) as they can only be set on profiles.
-
 ## What are they?
-Disrichie profiles are stored in plain JSON files, containing various information about the details of Rich Presence.
+Disrichie profiles are just plain JSON files, containing various data about the information of Rich Presence you are going to use.
 
 For example:
 ```json
@@ -43,6 +41,8 @@ Here's an explanation about the example:
 | `buttons` 	| A list of buttons used to display on your Rich Presence, refer to [Button references](#button-references) if you want to see the structure. | `list[dict]` 	|
 
 ### Button
+*Note: Buttons only exist on profiles.*
+
 | Key 	| Description 	| Type 	|
 |---	|---	|---	|
 | `label` 	| The text that will be displayed on the button. 	| `str` 	|
