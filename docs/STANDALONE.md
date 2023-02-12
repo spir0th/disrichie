@@ -10,7 +10,7 @@ Execute this command:
 $ ./tools/build # You must be on the source directory to execute this, otherwise it'll fail!
 ```
 
-to build the project into standalone.
+to build a standalone version of Disrichie.
 
 ### Installer (optional)
 If you also want to build the installer, you must check the following needs before you can execute `tools/build-installer`:
