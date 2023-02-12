@@ -2,6 +2,9 @@
 
 A simple program to display custom Rich Presence on Discord!
 
+*The development of Disrichie has been neglected and is now archived. If you still want
+to contribute to this project, just fork the repository.*
+
 # Introduction
 ## So, what does this do?
 Basically, it displays a custom Rich Presence status on your Discord account, don't worry it's not affiliated with Discord Inc.
